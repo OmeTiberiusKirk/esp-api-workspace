@@ -71,10 +71,10 @@ This repository is an Nx Monorepo containing NestJS Microservices:
 2. **Microservices (Auth & Master):**
    - Communicate via `@MessagePattern()` or `@EventPattern()`.
    - Do NOT expose public HTTP controllers unless required for health checks.
-   - Each service MUST own its database/schema (Database per Service pattern).
+   - Each service MUST strictly own its respective database schema (**Logical Separation / Schema per Service**).
 
 3. **Shared Code (`packages/shared`):**
-   - Place common interfaces, DTO contracts, and microservice event patterns in `packages/`.
+   - Place common interfaces, DTO contracts, and microservice event patterns in `packages/shared`.
    - Do NOT import service-specific logic into `packages/shared`.
 
 ### Code Style
@@ -82,6 +82,23 @@ This repository is an Nx Monorepo containing NestJS Microservices:
 - Use TypeScript strict mode.
 - Use NestJS built-in decorators for DTO validation (`class-validator`, `class-transformer`).
 - Standard response structure for Gateway: `{ success: boolean, data: any, message?: string }`.
+
+## 📦 Shared Types & DTO Conventions (`packages/shared`)
+
+### 1. DTO & Interface Placement:
+
+- All DTOs, Payload interfaces, and Response types shared between `api-gateway` and microservices MUST reside in `packages/shared`.
+- Use `class-validator` annotations directly inside Shared DTOs.
+
+### 2. Microservice Message Contracts:
+
+- Message/Event pattern strings MUST be defined as constants inside `packages/shared/src/pattern-contracts/`.
+- NEVER hardcode pattern strings (e.g., `'auth.login'`) directly in controllers or gateway services. Always import from `@my-monorepo/shared`.
+
+### 3. Entity vs DTO Separation:
+
+- Database Entities (Prisma models / TypeORM entities) belong STRICTLY inside their respective microservice app (`apps/<service-name>`).
+- NEVER export or import DB Entities into `packages/shared`. Map Entities to Shared DTOs/Interfaces before returning responses across microservices.
 
 ## 🗄️ Database Strategy (Shared DB, Separate Schemas)
 
@@ -95,3 +112,26 @@ This project uses a **single PostgreSQL instance** with **logical separation via
 1. **NO Cross-Schema JOINs:** Services MUST NOT query tables from another service's schema directly.
 2. **NO Cross-Schema Foreign Keys:** Store target IDs (e.g., `user_id`) as plain primitive types (UUID/BigInt) without database-level FK constraints.
 3. **Data Fetching:** If `master-service` needs user information, it MUST request it from `auth-service` via `@MessagePattern()`, NOT directly from the `auth` schema.
+
+## ⚙️ Environment Variables & Configuration Management (`@nestjs/config` + Joi)
+
+All environment variables and runtime configurations **MUST be managed using `@nestjs/config` alongside `joi` for strict schema validation**. Direct usage of `process.env.VARIABLE_NAME` in application source code is forbidden to ensure Type Safety, fail-fast behavior, and maintainability across all microservices.
+
+### Centralized Environment Schemas (`packages/shared`)
+
+Define reusable Joi validation schemas inside `packages/shared/src/config/` for each service to ensure missing or invalid environment variables cause the application to crash immediately on startup (Fail-Fast pattern).
+
+```typescript
+// packages/shared/src/config/auth-env.schema.ts
+import * as Joi from 'joi';
+
+export const authEnvSchema = Joi.object({
+  NODE_ENV: Joi.string()
+    .valid('development', 'production', 'test')
+    .default('development'),
+  PORT: Joi.number().port().default(3001),
+  JWT_SECRET: Joi.string().required(),
+  JWT_EXPIRATION: Joi.string().default('1d'),
+  DATABASE_URL: Joi.string().uri().required(),
+});
+```

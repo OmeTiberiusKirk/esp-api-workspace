@@ -11,6 +11,9 @@
     },
     {
       "path": "./apps/auth-service"
+    },
+    {
+      "path": "./packages/shared"
     }
   ],
   "compilerOptions": {}
