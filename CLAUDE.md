@@ -74,7 +74,7 @@ This repository is an Nx Monorepo containing NestJS Microservices:
    - Each service MUST own its database/schema (Database per Service pattern).
 
 3. **Shared Code (`packages/shared`):**
-   - Place common interfaces, DTO contracts, and microservice event patterns in `libs/`.
+   - Place common interfaces, DTO contracts, and microservice event patterns in `packages/`.
    - Do NOT import service-specific logic into `packages/shared`.
 
 ### Code Style
@@ -82,3 +82,16 @@ This repository is an Nx Monorepo containing NestJS Microservices:
 - Use TypeScript strict mode.
 - Use NestJS built-in decorators for DTO validation (`class-validator`, `class-transformer`).
 - Standard response structure for Gateway: `{ success: boolean, data: any, message?: string }`.
+
+## 🗄️ Database Strategy (Shared DB, Separate Schemas)
+
+This project uses a **single PostgreSQL instance** with **logical separation via Schemas**:
+
+- `auth-service` strictly owns the `auth` schema.
+- `master-service` strictly owns the `master` schema.
+
+### 🚫 Strict Rules for AI & Developers:
+
+1. **NO Cross-Schema JOINs:** Services MUST NOT query tables from another service's schema directly.
+2. **NO Cross-Schema Foreign Keys:** Store target IDs (e.g., `user_id`) as plain primitive types (UUID/BigInt) without database-level FK constraints.
+3. **Data Fetching:** If `master-service` needs user information, it MUST request it from `auth-service` via `@MessagePattern()`, NOT directly from the `auth` schema.
