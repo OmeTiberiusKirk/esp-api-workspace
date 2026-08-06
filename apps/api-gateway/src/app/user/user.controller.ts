@@ -3,7 +3,7 @@ import { ClientProxy } from '@nestjs/microservices';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { firstValueFrom } from 'rxjs';
 import { ApiResponse, CreateUserDto, UpdateUserDto, USER_PATTERNS } from '@esp/shared';
-import { MASTER_SERVICE_CLIENT } from './master-service.client';
+import { MASTER_SERVICE_CLIENT } from '../clients/service-clients.constants';
 
 @ApiTags('users')
 @Controller('users')

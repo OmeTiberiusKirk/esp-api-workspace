@@ -1,18 +1,22 @@
 import { Module } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { UserController } from './user.controller';
-import { MASTER_SERVICE_CLIENT } from './master-service.client';
+import { MASTER_SERVICE_CLIENT } from '../clients/service-clients.constants';
 
 @Module({
   imports: [
-    ClientsModule.register([
+    ClientsModule.registerAsync([
       {
         name: MASTER_SERVICE_CLIENT,
-        transport: Transport.TCP,
-        options: {
-          host: process.env.MASTER_SERVICE_HOST || 'localhost',
-          port: Number(process.env.MASTER_SERVICE_PORT) || 3001,
-        },
+        useFactory: (configService: ConfigService) => ({
+          transport: Transport.TCP,
+          options: {
+            host: configService.get<string>('MASTER_SERVICE_HOST'),
+            port: configService.get<number>('MASTER_SERVICE_PORT'),
+          },
+        }),
+        inject: [ConfigService],
       },
     ]),
   ],
