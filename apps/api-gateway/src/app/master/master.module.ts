@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { MasterService } from './master.service';
 import { MasterController } from './master.controller';
 import { ConfigService } from '@nestjs/config';
 import { MASTER_SERVICE_CLIENT } from '../clients/service-clients.constants';
@@ -21,7 +20,6 @@ import { MASTER_SERVICE_CLIENT } from '../clients/service-clients.constants';
       },
     ]),
   ],
-  providers: [MasterService],
   controllers: [MasterController],
 })
 export class MasterModule {}
