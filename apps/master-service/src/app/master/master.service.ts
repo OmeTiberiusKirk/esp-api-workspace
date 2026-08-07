@@ -13,14 +13,19 @@ export class MasterService {
   constructor(private readonly prisma: PrismaService) {}
 
   async getProvinces(): Promise<MasterOption[]> {
-    const rows = await this.prisma.tb_ms_province.findMany({
-      where: { record_status: ACTIVE },
-      orderBy: { province_code: 'asc' },
-    });
+    try {
+      const rows = await this.prisma.tb_ms_province.findMany({
+        where: { record_status: ACTIVE },
+        orderBy: { province_code: 'asc' },
+      });
 
-    return rows
-      .filter((r) => r.province_code)
-      .map((r) => ({ code: r.province_code!, name: r.province_name_th! }));
+      return rows
+        .filter((r) => r.province_code)
+        .map((r) => ({ code: r.province_code!, name: r.province_name_th! }));
+    } catch (error) {
+      console.log(error);
+      return [];
+    }
   }
 
   async getDistrictsByProvinceCode(

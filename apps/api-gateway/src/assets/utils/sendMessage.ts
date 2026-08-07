@@ -19,11 +19,12 @@ export const send = <T>(
     client.send<ApiResponse<T>>(pattern, data).pipe(
       timeout(timeoutMs),
       catchError((err: unknown) => {
+        console.log(err);
         if (err instanceof TimeoutError) {
           return throwError(
             () =>
               new HttpException(
-                'Auth service timed out',
+                'service timed out',
                 HttpStatus.GATEWAY_TIMEOUT,
               ),
           );
@@ -33,7 +34,7 @@ export const send = <T>(
           return throwError(
             () =>
               new HttpException(
-                'Auth service unavailable',
+                'service unavailable',
                 HttpStatus.SERVICE_UNAVAILABLE,
               ),
           );

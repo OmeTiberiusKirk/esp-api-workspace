@@ -85,6 +85,7 @@
     "@nestjs/microservices": "catalog:",
     "@nestjs/platform-express": "catalog:",
     "@nestjs/swagger": "catalog:",
+    "@types/express": "^5.0.6",
     "class-transformer": "catalog:",
     "class-validator": "catalog:",
     "joi": "catalog:",

@@ -14,6 +14,7 @@
     "./package.json": "./package.json"
   },
   "dependencies": {
+    "@nestjs/common": "catalog:",
     "@nestjs/config": "catalog:",
     "@nestjs/swagger": "catalog:",
     "class-transformer": "catalog:",

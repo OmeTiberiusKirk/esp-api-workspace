@@ -8,12 +8,17 @@ import { NestFactory } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app/app.module';
+import { RpcExceptionFilter } from './assets/filters/rpc-exception.filter';
+import { TransformInterceptor } from './assets/interceptors/transform.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
+
+  app.useGlobalFilters(new RpcExceptionFilter());
+  app.useGlobalInterceptors(new TransformInterceptor());
 
   const swaggerDocument = SwaggerModule.createDocument(
     app,
