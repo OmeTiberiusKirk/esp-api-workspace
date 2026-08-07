@@ -4,7 +4,10 @@
   "include": ["prisma.config.ts"],
   "references": [
     {
+      "path": "../../packages/shared"
+    },
+    {
       "path": "./tsconfig.app.json"
     }
-  ],
+  ]
 }

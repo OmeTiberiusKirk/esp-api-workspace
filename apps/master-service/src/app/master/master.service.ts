@@ -20,7 +20,7 @@ export class MasterService {
 
     return rows
       .filter((r) => r.province_code)
-      .map((r) => ({ code: r.province_code!, name: r.province_name_th ?? '' }));
+      .map((r) => ({ code: r.province_code!, name: r.province_name_th! }));
   }
 
   async getDistrictsByProvinceCode(
