@@ -1,5 +1,5 @@
 {
-  "name": "@org/auth-service",
+  "name": "@esp/auth-service",
   "version": "0.0.1",
   "private": true,
   "nx": {
@@ -63,15 +63,15 @@
           "build"
         ],
         "options": {
-          "buildTarget": "@org/auth-service:build",
+          "buildTarget": "@esp/auth-service:build",
           "runBuildTargetDependencies": false
         },
         "configurations": {
           "development": {
-            "buildTarget": "@org/auth-service:build:development"
+            "buildTarget": "@esp/auth-service:build:development"
           },
           "production": {
-            "buildTarget": "@org/auth-service:build:production"
+            "buildTarget": "@esp/auth-service:build:production"
           }
         }
       }

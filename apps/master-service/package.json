@@ -1,5 +1,5 @@
 {
-  "name": "@org/master-service",
+  "name": "@esp/master-service",
   "version": "0.0.1",
   "private": true,
   "nx": {
@@ -63,15 +63,15 @@
           "build"
         ],
         "options": {
-          "buildTarget": "@org/master-service:build",
+          "buildTarget": "@esp/master-service:build",
           "runBuildTargetDependencies": false
         },
         "configurations": {
           "development": {
-            "buildTarget": "@org/master-service:build:development"
+            "buildTarget": "@esp/master-service:build:development"
           },
           "production": {
-            "buildTarget": "@org/master-service:build:production"
+            "buildTarget": "@esp/master-service:build:production"
           }
         }
       }
@@ -80,6 +80,7 @@
   "dependencies": {
     "@esp/shared": "workspace:*",
     "@nestjs/common": "catalog:",
+    "@nestjs/config": "catalog:",
     "@nestjs/core": "catalog:",
     "@nestjs/microservices": "catalog:",
     "@nestjs/platform-express": "catalog:",
@@ -87,15 +88,17 @@
     "@prisma/client": "^7.9.1",
     "class-transformer": "catalog:",
     "class-validator": "catalog:",
-    "dotenv": "^17.4.2",
     "pg": "^8.22.0",
     "reflect-metadata": "catalog:",
     "rxjs": "catalog:",
     "tslib": "catalog:"
   },
   "devDependencies": {
+    "@brakebein/prisma-generator-nestjs-dto": "^1.30.0",
     "@nestjs/testing": "catalog:",
+    "@types/node": "^24.13.3",
     "@types/pg": "^8.20.4",
+    "dotenv": "^17.4.2",
     "prisma": "^7.9.1"
   }
 }

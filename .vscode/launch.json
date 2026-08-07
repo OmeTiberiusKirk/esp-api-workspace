@@ -4,9 +4,9 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Debug @org/api-gateway with Nx",
+      "name": "Debug @esp/api-gateway with Nx",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["exec", "nx", "serve", "@org/api-gateway"],
+      "runtimeArgs": ["exec", "nx", "serve", "@esp/api-gateway"],
       "env": {
         "NODE_OPTIONS": "--inspect=9229"
       },
@@ -22,9 +22,9 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Debug @org/master-service with Nx",
+      "name": "Debug @esp/master-service with Nx",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["exec", "nx", "serve", "@org/master-service"],
+      "runtimeArgs": ["exec", "nx", "serve", "@esp/master-service"],
       "env": {
         "NODE_OPTIONS": "--inspect=9230"
       },
@@ -40,9 +40,9 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Debug @org/auth-service with Nx",
+      "name": "Debug @esp/auth-service with Nx",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["exec", "nx", "serve", "@org/auth-service"],
+      "runtimeArgs": ["exec", "nx", "serve", "@esp/auth-service"],
       "env": {
         "NODE_OPTIONS": "--inspect=9231"
       },

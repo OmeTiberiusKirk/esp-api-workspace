@@ -1,20 +1,285 @@
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
+}
+
+generator nestjsDto {
+  provider                    = "prisma-generator-nestjs-dto"
+  output                      = "../src/generated/nestjs-dto"
+  createDtoPrefix             = "Create"
+  definiteAssignmentAssertion = "true"
+  dtoSuffix                   = "Dto"
+  noDependencies              = "true"
+  prettier                    = "true"
+  updateDtoPrefix             = "Update"
 }
 
 datasource db {
   provider = "postgresql"
-  schemas  = ["master"]
+  schemas  = ["mas"]
 }
 
-model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_ms_amphoe {
+  amphoe_seq     Int       @id(map: "pk_tb_ms_amphoe") @default(autoincrement())
+  amphoe_code    String?   @db.VarChar(2)
+  amphoe_name_th String?   @db.VarChar(100)
+  province_code  String?   @db.VarChar(2)
+  record_status  String?   @default("N") @db.Char(1)
+  create_dtm     DateTime? @default(now()) @db.Timestamptz(6)
+  create_by      String?   @db.Uuid
+  update_dtm     DateTime? @db.Timestamptz(6)
+  update_by      String?   @db.Uuid
 
-  @@map("users")
-  @@schema("master")
+  @@index([amphoe_name_th], map: "idx_tb_ms_amphoe_name")
+  @@index([province_code], map: "idx_tb_ms_amphoe_province")
+  @@schema("mas")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_ms_channel {
+  channel_id       BigInt    @id(map: "pk_tb_ms_channel") @default(autoincrement())
+  channel_name     String    @unique(map: "uk_tb_ms_channel") @db.VarChar(100)
+  channel_note     String?   @db.VarChar(250)
+  channel_order    Int       @default(1)
+  channel_use_flag String    @default("1") @db.Char(1)
+  record_status    String    @default("N") @db.Char(1)
+  create_dtm       DateTime  @default(now()) @db.Timestamptz(6)
+  create_by        String?   @db.Uuid
+  update_dtm       DateTime? @db.Timestamptz(6)
+  update_by        String?   @db.Uuid
+
+  @@index([channel_name], map: "idx_tb_ms_channel_name")
+  @@index([channel_order], map: "idx_tb_ms_channel_order")
+  @@index([channel_use_flag], map: "idx_tb_ms_channel_use_flag")
+  @@schema("mas")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_ms_land_office {
+  land_office_seq     String    @id(map: "pk_tb_ms_land_office") @db.VarChar(10)
+  land_office_name    String    @db.VarChar(250)
+  province_seq        Int?
+  province_code       String?   @db.VarChar(2)
+  amphoe_seq          Int?
+  amphoe_code         String?   @db.VarChar(2)
+  tambon_seq          Int?
+  tambon_code         String?   @db.VarChar(2)
+  record_status       String    @default("N") @db.Char(1)
+  create_dtm          DateTime  @default(now()) @db.Timestamptz(6)
+  create_by           String?   @db.Uuid
+  update_dtm          DateTime? @db.Timestamptz(6)
+  update_by           String?   @db.Uuid
+  landoffice_type_seq Int?
+
+  @@index([province_code, amphoe_code], map: "idx_tb_ms_land_office_amphoe")
+  @@index([land_office_name], map: "idx_tb_ms_land_office_name")
+  @@index([province_code], map: "idx_tb_ms_land_office_province")
+  @@index([province_code, amphoe_code, tambon_code], map: "idx_tb_ms_land_office_tambon")
+  @@schema("mas")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_ms_method {
+  method_id       BigInt    @id(map: "pk_tb_ms_method") @default(autoincrement())
+  method_name     String    @unique(map: "uk_tb_ms_method_name") @db.VarChar(100)
+  method_note     String?   @db.VarChar(250)
+  method_order    Int       @default(1)
+  method_use_flag String    @default("1") @db.Char(1)
+  record_status   String    @default("N") @db.Char(1)
+  create_dtm      DateTime  @default(now()) @db.Timestamptz(6)
+  create_by       String?   @db.Uuid
+  update_dtm      DateTime? @db.Timestamptz(6)
+  update_by       String?   @db.Uuid
+
+  @@index([method_name], map: "idx_tb_ms_method_name")
+  @@index([method_order], map: "idx_tb_ms_method_order")
+  @@index([method_use_flag], map: "idx_tb_ms_method_use_flag")
+  @@schema("mas")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_ms_param {
+  param_id          BigInt    @id(map: "pk_tb_ms_param") @default(autoincrement())
+  param_description String    @db.VarChar(100)
+  param_name        String    @unique(map: "uk_tb_ms_param") @db.VarChar(100)
+  param_value       Int
+  param_unit        String?   @db.VarChar(10)
+  param_use_flag    String    @default("1") @db.Char(1)
+  record_status     String    @default("N") @db.Char(1)
+  create_dtm        DateTime  @default(now()) @db.Timestamptz(6)
+  create_by         String?   @db.Uuid
+  update_dtm        DateTime? @db.Timestamptz(6)
+  update_by         String?   @db.Uuid
+
+  @@index([param_name], map: "idx_tb_ms_param_name")
+  @@index([param_use_flag], map: "idx_tb_ms_param_use_flag")
+  @@schema("mas")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_ms_province {
+  province_seq     Int       @id(map: "pk_tb_ms_province") @default(autoincrement())
+  province_code    String?   @db.VarChar(2)
+  province_name_th String?   @db.VarChar(100)
+  record_status    String    @default("N") @db.Char(1)
+  create_dtm       DateTime? @default(now()) @db.Timestamptz(6)
+  create_by        String?   @db.Uuid
+  update_dtm       DateTime? @db.Timestamptz(6)
+  update_by        String?   @db.Uuid
+
+  @@index([province_code], map: "idx_tb_ms_province_code")
+  @@index([province_name_th], map: "idx_tb_ms_province_name")
+  @@schema("mas")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_ms_scale {
+  scale_seq      Int       @id(map: "pk_tb_ms_scale") @default(autoincrement())
+  scale_name     String?   @unique(map: "uk_tb_ms_scale") @db.VarChar(100)
+  scale_page_qty Int?
+  record_status  String    @default("N") @db.Char(1)
+  create_dtm     DateTime  @default(now()) @db.Timestamptz(6)
+  create_by      String?   @db.Uuid
+  update_dtm     DateTime? @db.Timestamptz(6)
+  update_by      String?   @db.Uuid
+  scale_order    Int?
+
+  @@index([scale_name], map: "idx_tb_ms_scale_name")
+  @@schema("mas")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_ms_service {
+  service_id           BigInt    @id(map: "pk_tb_ms_service") @default(autoincrement())
+  service_organization String    @db.VarChar(250)
+  service_name         String    @unique(map: "uk_tb_ms_service") @db.VarChar(100)
+  service_note         String?   @db.VarChar(250)
+  service_path         String    @db.VarChar(250)
+  service_method       String    @db.VarChar(20)
+  service_type         String    @db.VarChar(20)
+  service_order        Int       @default(1)
+  service_use_flag     String    @default("1") @db.Char(1)
+  record_status        String    @default("N") @db.Char(1)
+  create_dtm           DateTime  @default(now()) @db.Timestamptz(6)
+  create_by            String?   @db.Uuid
+  update_dtm           DateTime? @db.Timestamptz(6)
+  update_by            String?   @db.Uuid
+
+  @@index([service_name], map: "idx_tb_ms_service_name")
+  @@index([service_order], map: "idx_tb_ms_service_order")
+  @@index([service_organization], map: "idx_tb_ms_service_org")
+  @@index([service_use_flag], map: "idx_tb_ms_service_use_flag")
+  @@schema("mas")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_ms_tambon {
+  tambon_seq     Int       @id(map: "pk_tb_ms_tambon") @default(autoincrement())
+  tambon_code    String?   @db.VarChar(2)
+  tambon_name_th String?   @db.VarChar(100)
+  province_code  String?   @db.VarChar(2)
+  amphoe_code    String?   @db.VarChar(2)
+  post_code      String?   @db.VarChar(5)
+  record_status  String?   @default("N") @db.Char(1)
+  create_dtm     DateTime? @default(now()) @db.Timestamptz(6)
+  create_by      String?   @db.Uuid
+  update_dtm     DateTime? @db.Timestamptz(6)
+  update_by      String?   @db.Uuid
+
+  @@index([province_code, amphoe_code], map: "idx_tb_ms_tambon_amphoe")
+  @@index([tambon_name_th], map: "idx_tb_ms_tambon_name")
+  @@index([province_code], map: "idx_tb_ms_tambon_province")
+  @@schema("mas")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_ms_template_email {
+  template_email_id           BigInt    @id(map: "pk_tb_ms_template_email") @default(autoincrement())
+  template_email_note         String?   @db.VarChar(250)
+  template_email_title_header String    @db.VarChar(150)
+  template_email_to_desc      String?   @db.VarChar(250)
+  template_email_title_desc   String    @db.VarChar(250)
+  template_email_description  String
+  template_email_footer       String?   @db.VarChar(150)
+  template_email_footer_org   String?   @db.VarChar(150)
+  email_template_remark       String?   @db.VarChar(350)
+  record_status               String    @default("N") @db.Char(1)
+  create_dtm                  DateTime  @default(now()) @db.Timestamptz(6)
+  create_by                   String?   @db.Uuid
+  update_dtm                  DateTime? @db.Timestamptz(6)
+  update_by                   String?   @db.Uuid
+
+  @@index([record_status], map: "idx_tb_ms_template_email_status")
+  @@index([template_email_title_desc], map: "idx_tb_ms_template_email_title")
+  @@schema("mas")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_ms_title {
+  title_id      BigInt    @id(map: "pk_tb_ms_title") @default(autoincrement())
+  title_seq     Int?
+  title_name    String?   @db.VarChar(200)
+  title_abbr    String?   @db.VarChar(50)
+  record_status String?   @default("N") @db.Char(1)
+  create_dtm    DateTime? @default(now()) @db.Timestamptz(6)
+  create_by     String?   @db.Uuid
+  update_dtm    DateTime? @db.Timestamptz(6)
+  update_by     String?   @db.Uuid
+
+  @@index([title_abbr], map: "idx_tb_ms_title_abbr")
+  @@index([title_name], map: "idx_tb_ms_title_name")
+  @@schema("mas")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_ms_user_role {
+  user_role_id       BigInt    @id(map: "pk_tb_ms_user_role") @default(autoincrement())
+  user_role_name     String    @unique(map: "uk_tb_ms_user_role_name") @db.VarChar(100)
+  user_role_note     String?   @db.VarChar(250)
+  user_role_order    Int       @default(1)
+  user_role_use_flag String    @default("1") @db.Char(1)
+  record_status      String    @default("N") @db.Char(1)
+  create_dtm         DateTime  @default(now()) @db.Timestamptz(6)
+  create_by          String?   @db.Uuid
+  update_dtm         DateTime? @db.Timestamptz(6)
+  update_by          String?   @db.Uuid
+
+  @@index([user_role_name], map: "idx_tb_ms_user_role_name")
+  @@index([user_role_order], map: "idx_tb_ms_user_role_order")
+  @@index([user_role_use_flag], map: "idx_tb_ms_user_role_use_flag")
+  @@schema("mas")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_ms_user_type {
+  user_type_id       BigInt    @id(map: "pk_tb_ms_user_type") @default(autoincrement())
+  user_type_name     String    @unique(map: "uk_tb_ms_user_type_name") @db.VarChar(100)
+  user_type_note     String?   @db.VarChar(250)
+  user_type_order    Int       @default(1)
+  user_type_use_flag String    @default("1") @db.Char(1)
+  record_status      String    @default("N") @db.Char(1)
+  create_dtm         DateTime  @default(now()) @db.Timestamptz(6)
+  create_by          String?   @db.Uuid
+  update_dtm         DateTime? @db.Timestamptz(6)
+  update_by          String?   @db.Uuid
+
+  @@index([user_type_name], map: "idx_tb_ms_user_type_name")
+  @@index([user_type_order], map: "idx_tb_ms_user_type_order")
+  @@index([user_type_use_flag], map: "idx_tb_ms_user_type_use_flag")
+  @@schema("mas")
 }

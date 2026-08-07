@@ -9,10 +9,10 @@ import {
   TimeoutError,
 } from 'rxjs';
 
-export const forward = <T>(
+export const send = <T>(
   client: ClientProxy,
   pattern: string,
-  data: unknown,
+  data: unknown = {},
   timeoutMs = 5_000,
 ) => {
   return firstValueFrom(

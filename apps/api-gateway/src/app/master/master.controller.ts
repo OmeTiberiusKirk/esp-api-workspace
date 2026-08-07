@@ -14,7 +14,7 @@ export class MasterController {
   })
   @Get('/provinces')
   async getProvinces() {
-    return this.masterService.getProvinces();
+    return this.masterService.provinces();
   }
 
   @ApiOperation({

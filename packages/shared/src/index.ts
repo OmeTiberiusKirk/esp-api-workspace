@@ -4,3 +4,4 @@ export * from './dto/common/api-response.interface.js';
 export * from './patterns/user.patterns.js';
 export * from './patterns/master.patterns.js';
 export * from './config/api-gateway-env.schema.js';
+export * from './config/master-service-env.schema.js';
