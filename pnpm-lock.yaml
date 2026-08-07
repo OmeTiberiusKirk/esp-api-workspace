@@ -4,34 +4,63 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+catalogs:
+  default:
+    '@nestjs/common':
+      specifier: ^11.0.0
+      version: 11.1.28
+    '@nestjs/config':
+      specifier: ^4.0.4
+      version: 4.0.4
+    '@nestjs/core':
+      specifier: ^11.0.0
+      version: 11.1.28
+    '@nestjs/microservices':
+      specifier: ^11.1.28
+      version: 11.1.28
+    '@nestjs/platform-express':
+      specifier: ^11.0.0
+      version: 11.1.28
+    '@nestjs/schematics':
+      specifier: ^11.0.0
+      version: 11.1.0
+    '@nestjs/swagger':
+      specifier: ^11.4.6
+      version: 11.4.6
+    '@nestjs/testing':
+      specifier: ^11.0.0
+      version: 11.1.28
+    class-transformer:
+      specifier: ^0.5.1
+      version: 0.5.1
+    class-validator:
+      specifier: ^0.15.1
+      version: 0.15.1
+    joi:
+      specifier: ^18.2.3
+      version: 18.2.3
+    reflect-metadata:
+      specifier: ^0.2.0
+      version: 0.2.2
+    rxjs:
+      specifier: ^7.8.0
+      version: 7.8.1
+    tslib:
+      specifier: ^2.3.0
+      version: 2.8.1
+
 importers:
 
   .:
-    dependencies:
-      '@nestjs/common':
-        specifier: ^11.0.0
-        version: 11.1.28(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.1)
-      '@nestjs/core':
-        specifier: ^11.0.0
-        version: 11.1.28(@nestjs/common@11.1.28(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/microservices@11.1.28)(@nestjs/platform-express@11.1.28)(reflect-metadata@0.2.2)(rxjs@7.8.1)
-      '@nestjs/platform-express':
-        specifier: ^11.0.0
-        version: 11.1.28(@nestjs/common@11.1.28(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@11.1.28)
-      reflect-metadata:
-        specifier: ^0.2.0
-        version: 0.2.2
-      rxjs:
-        specifier: ^7.8.0
-        version: 7.8.1
     devDependencies:
       '@eslint/js':
         specifier: ^9.8.0
         version: 9.39.5
       '@nestjs/schematics':
-        specifier: ^11.0.0
+        specifier: 'catalog:'
         version: 11.1.0(chokidar@4.0.3)(prettier@3.9.6)(typescript@6.0.3)
       '@nestjs/testing':
-        specifier: ^11.0.0
+        specifier: 'catalog:'
         version: 11.1.28(@nestjs/common@11.1.28(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@11.1.28)(@nestjs/microservices@11.1.28)(@nestjs/platform-express@11.1.28)
       '@nx/eslint':
         specifier: 23.1.0
@@ -79,7 +108,7 @@ importers:
         specifier: ^3.8.1
         version: 3.9.6
       tslib:
-        specifier: ^2.3.0
+        specifier: 'catalog:'
         version: 2.8.1
       typescript:
         specifier: ~6.0.3
@@ -103,69 +132,69 @@ importers:
         specifier: workspace:*
         version: link:../../packages/shared
       '@nestjs/common':
-        specifier: ^11.0.0
+        specifier: 'catalog:'
         version: 11.1.28(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.1)
       '@nestjs/config':
-        specifier: ^4.0.4
+        specifier: 'catalog:'
         version: 4.0.4(@nestjs/common@11.1.28(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(rxjs@7.8.1)
       '@nestjs/core':
-        specifier: ^11.0.0
+        specifier: 'catalog:'
         version: 11.1.28(@nestjs/common@11.1.28(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/microservices@11.1.28)(@nestjs/platform-express@11.1.28)(reflect-metadata@0.2.2)(rxjs@7.8.1)
       '@nestjs/microservices':
-        specifier: ^11.1.28
+        specifier: 'catalog:'
         version: 11.1.28(@nestjs/common@11.1.28(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@11.1.28)(reflect-metadata@0.2.2)(rxjs@7.8.1)
       '@nestjs/platform-express':
-        specifier: ^11.0.0
+        specifier: 'catalog:'
         version: 11.1.28(@nestjs/common@11.1.28(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@11.1.28)
       '@nestjs/swagger':
-        specifier: ^11.4.6
+        specifier: 'catalog:'
         version: 11.4.6(@nestjs/common@11.1.28(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@11.1.28)(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)
       class-transformer:
-        specifier: ^0.5.1
+        specifier: 'catalog:'
         version: 0.5.1
       class-validator:
-        specifier: ^0.15.1
+        specifier: 'catalog:'
         version: 0.15.1
       joi:
-        specifier: ^18.2.3
+        specifier: 'catalog:'
         version: 18.2.3
       reflect-metadata:
-        specifier: ^0.2.0
+        specifier: 'catalog:'
         version: 0.2.2
       rxjs:
-        specifier: ^7.8.0
+        specifier: 'catalog:'
         version: 7.8.1
       tslib:
-        specifier: ^2.3.0
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@nestjs/testing':
-        specifier: ^11.0.0
+        specifier: 'catalog:'
         version: 11.1.28(@nestjs/common@11.1.28(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@11.1.28)(@nestjs/microservices@11.1.28)(@nestjs/platform-express@11.1.28)
 
   apps/auth-service:
     dependencies:
       '@nestjs/common':
-        specifier: ^11.0.0
+        specifier: 'catalog:'
         version: 11.1.28(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.1)
       '@nestjs/core':
-        specifier: ^11.0.0
+        specifier: 'catalog:'
         version: 11.1.28(@nestjs/common@11.1.28(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/microservices@11.1.28)(@nestjs/platform-express@11.1.28)(reflect-metadata@0.2.2)(rxjs@7.8.1)
       '@nestjs/platform-express':
-        specifier: ^11.0.0
+        specifier: 'catalog:'
         version: 11.1.28(@nestjs/common@11.1.28(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@11.1.28)
       reflect-metadata:
-        specifier: ^0.2.0
+        specifier: 'catalog:'
         version: 0.2.2
       rxjs:
-        specifier: ^7.8.0
+        specifier: 'catalog:'
         version: 7.8.1
       tslib:
-        specifier: ^2.3.0
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@nestjs/testing':
-        specifier: ^11.0.0
+        specifier: 'catalog:'
         version: 11.1.28(@nestjs/common@11.1.28(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@11.1.28)(@nestjs/microservices@11.1.28)(@nestjs/platform-express@11.1.28)
 
   apps/master-service:
@@ -174,16 +203,16 @@ importers:
         specifier: workspace:*
         version: link:../../packages/shared
       '@nestjs/common':
-        specifier: ^11.0.0
+        specifier: 'catalog:'
         version: 11.1.28(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.1)
       '@nestjs/core':
-        specifier: ^11.0.0
+        specifier: 'catalog:'
         version: 11.1.28(@nestjs/common@11.1.28(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/microservices@11.1.28)(@nestjs/platform-express@11.1.28)(reflect-metadata@0.2.2)(rxjs@7.8.1)
       '@nestjs/microservices':
-        specifier: ^11.1.28
+        specifier: 'catalog:'
         version: 11.1.28(@nestjs/common@11.1.28(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@11.1.28)(reflect-metadata@0.2.2)(rxjs@7.8.1)
       '@nestjs/platform-express':
-        specifier: ^11.0.0
+        specifier: 'catalog:'
         version: 11.1.28(@nestjs/common@11.1.28(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@11.1.28)
       '@prisma/adapter-pg':
         specifier: ^7.9.1
@@ -192,10 +221,10 @@ importers:
         specifier: ^7.9.1
         version: 7.9.1(prisma@7.9.1(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@6.0.3))(typescript@6.0.3)
       class-transformer:
-        specifier: ^0.5.1
+        specifier: 'catalog:'
         version: 0.5.1
       class-validator:
-        specifier: ^0.15.1
+        specifier: 'catalog:'
         version: 0.15.1
       dotenv:
         specifier: ^17.4.2
@@ -204,17 +233,17 @@ importers:
         specifier: ^8.22.0
         version: 8.22.0
       reflect-metadata:
-        specifier: ^0.2.0
+        specifier: 'catalog:'
         version: 0.2.2
       rxjs:
-        specifier: ^7.8.0
+        specifier: 'catalog:'
         version: 7.8.1
       tslib:
-        specifier: ^2.3.0
+        specifier: 'catalog:'
         version: 2.8.1
     devDependencies:
       '@nestjs/testing':
-        specifier: ^11.0.0
+        specifier: 'catalog:'
         version: 11.1.28(@nestjs/common@11.1.28(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@11.1.28)(@nestjs/microservices@11.1.28)(@nestjs/platform-express@11.1.28)
       '@types/pg':
         specifier: ^8.20.4
@@ -226,19 +255,19 @@ importers:
   packages/shared:
     dependencies:
       '@nestjs/config':
-        specifier: ^4.0.4
+        specifier: 'catalog:'
         version: 4.0.4(@nestjs/common@11.1.28(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(rxjs@7.8.1)
       '@nestjs/swagger':
-        specifier: ^11.4.6
+        specifier: 'catalog:'
         version: 11.4.6(@nestjs/common@11.1.28(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@11.1.28)(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)
       class-transformer:
-        specifier: ^0.5.1
+        specifier: 'catalog:'
         version: 0.5.1
       class-validator:
-        specifier: ^0.15.1
+        specifier: 'catalog:'
         version: 0.15.1
       joi:
-        specifier: ^18.2.3
+        specifier: 'catalog:'
         version: 18.2.3
 
 packages:

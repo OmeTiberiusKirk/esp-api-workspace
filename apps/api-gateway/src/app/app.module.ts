@@ -4,6 +4,7 @@ import { apiGatewayEnvSchema } from '@esp/shared';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
+import { MasterModule } from './master/master.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { UserModule } from './user/user.module';
       validationSchema: apiGatewayEnvSchema,
     }),
     UserModule,
+    MasterModule,
   ],
   controllers: [AppController],
   providers: [AppService],

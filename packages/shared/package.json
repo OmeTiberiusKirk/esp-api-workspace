@@ -14,10 +14,10 @@
     "./package.json": "./package.json"
   },
   "dependencies": {
-    "@nestjs/config": "^4.0.4",
-    "@nestjs/swagger": "^11.4.6",
-    "class-transformer": "^0.5.1",
-    "class-validator": "^0.15.1",
-    "joi": "^18.2.3"
+    "@nestjs/config": "catalog:",
+    "@nestjs/swagger": "catalog:",
+    "class-transformer": "catalog:",
+    "class-validator": "catalog:",
+    "joi": "catalog:"
   }
 }

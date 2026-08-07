@@ -2,12 +2,30 @@
   "name": "@org/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "serve": "nx run-many --target=serve --all",
+    "serve:api-gateway": "nx serve api-gateway",
+    "serve:auth-service": "nx serve auth-service",
+    "serve:master-service": "nx serve master-service",
+    "build": "nx run-many --target=build --all",
+    "build:affected": "nx affected --target=build",
+    "build:api-gateway": "nx build api-gateway",
+    "build:auth-service": "nx build auth-service",
+    "build:master-service": "nx build master-service",
+    "test": "nx run-many --target=test --all",
+    "test:api-gateway": "nx test api-gateway",
+    "test:auth-service": "nx test auth-service",
+    "test:master-service": "nx test master-service",
+    "lint": "nx run-many --target=lint --all",
+    "lint:api-gateway": "nx lint api-gateway",
+    "lint:auth-service": "nx lint auth-service",
+    "lint:master-service": "nx lint master-service"
+  },
   "private": true,
   "devDependencies": {
     "@eslint/js": "^9.8.0",
-    "@nestjs/schematics": "^11.0.0",
-    "@nestjs/testing": "^11.0.0",
+    "@nestjs/schematics": "catalog:",
+    "@nestjs/testing": "catalog:",
     "@nx/eslint": "23.1.0",
     "@nx/eslint-plugin": "23.1.0",
     "@nx/js": "23.1.0",
@@ -23,18 +41,11 @@
     "eslint-config-prettier": "^10.0.0",
     "nx": "23.1.0",
     "prettier": "^3.8.1",
-    "tslib": "^2.3.0",
+    "tslib": "catalog:",
     "typescript": "~6.0.3",
     "typescript-eslint": "^8.58.0",
     "webpack": "^5.101.3",
     "webpack-cli": "^7.0.0",
     "webpack-dev-server": "^5.2.1"
-  },
-  "dependencies": {
-    "@nestjs/common": "^11.0.0",
-    "@nestjs/core": "^11.0.0",
-    "@nestjs/platform-express": "^11.0.0",
-    "reflect-metadata": "^0.2.0",
-    "rxjs": "^7.8.0"
   }
 }
