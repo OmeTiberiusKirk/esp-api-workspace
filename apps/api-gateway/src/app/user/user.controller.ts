@@ -1,15 +1,29 @@
-import { Body, Controller, Get, Inject, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { firstValueFrom } from 'rxjs';
-import { ApiResponse, CreateUserDto, UpdateUserDto, USER_PATTERNS } from '@esp/shared';
-import { MASTER_SERVICE_CLIENT } from '../clients/service-clients.constants';
+import {
+  ApiResponse,
+  CreateUserDto,
+  UpdateUserDto,
+  USER_PATTERNS,
+} from '@esp/shared';
+import { MASTER_SERVICE_CLIENT } from '../../assets/constants/service-clients.constants';
 
 @ApiTags('users')
 @Controller('users')
 export class UserController {
   constructor(
-    @Inject(MASTER_SERVICE_CLIENT) private readonly masterServiceClient: ClientProxy,
+    @Inject(MASTER_SERVICE_CLIENT)
+    private readonly masterServiceClient: ClientProxy,
   ) {}
 
   @Post()
