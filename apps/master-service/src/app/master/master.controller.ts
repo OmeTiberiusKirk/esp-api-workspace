@@ -9,7 +9,6 @@ export class MasterController {
 
   @MessagePattern(MASTER_PATTERNS.PROVINCES)
   async getProvinces() {
-    console.log('garon');
     return this.masterService.getProvinces();
   }
 

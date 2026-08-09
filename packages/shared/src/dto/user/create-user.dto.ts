@@ -1,13 +1,41 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsString, MinLength } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsObject,
+  IsOptional,
+  ValidateNested,
+} from 'class-validator';
+import { Type } from 'class-transformer';
+import { CreatePersonalDto } from './create-personal.dto.js';
+import { CreateAddressDto } from './create-address.dto.js';
 
 export class CreateUserDto {
-  @ApiProperty({ example: 'user@example.com' })
-  @IsEmail()
-  email!: string;
+  @ApiProperty({
+    type: CreatePersonalDto,
+    required: true,
+  })
+  @IsNotEmpty()
+  @IsObject()
+  @ValidateNested()
+  @Type(() => CreatePersonalDto)
+  personal!: CreatePersonalDto;
 
-  @ApiProperty({ minLength: 8, example: 'p@ssw0rd123' })
-  @IsString()
-  @MinLength(8)
-  password!: string;
+  @ApiProperty({
+    type: CreateAddressDto,
+    required: true,
+  })
+  @IsNotEmpty()
+  @IsObject()
+  @ValidateNested()
+  @Type(() => CreateAddressDto)
+  address!: CreateAddressDto;
+
+  @ApiPropertyOptional({
+    description: 'true ถ้าผู้ใช้ยืนยันตัวตนผ่าน ThaID มาก่อนแล้ว',
+    default: false,
+  })
+  @IsOptional()
+  @IsBoolean()
+  is_thaid_verified?: boolean;
 }

@@ -1,14 +1,14 @@
 import { Controller } from '@nestjs/common';
-import { MessagePattern } from '@nestjs/microservices';
-import { AUTH_PATTERNS } from '@esp/shared';
+import { MessagePattern, Payload } from '@nestjs/microservices';
+import { AUTH_PATTERNS, CreateUserDto } from '@esp/shared';
 import { AuthService } from './auth.service';
 
 @Controller()
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @MessagePattern(AUTH_PATTERNS.HELLO)
-  hello() {
-    return this.authService.hello();
+  @MessagePattern(AUTH_PATTERNS.REG001)
+  register(@Payload() data: CreateUserDto) {
+    return this.authService.register(data);
   }
 }

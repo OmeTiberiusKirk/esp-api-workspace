@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { AUTH_SERVICE_CLIENT } from '../../assets/constants/service-clients.constants';
 import { ConfigService } from '@nestjs/config';
-import { AuthController } from './auth.controller';
+import { AuthReg001 } from './auth.controller';
 
 @Module({
   imports: [
@@ -20,6 +20,6 @@ import { AuthController } from './auth.controller';
       },
     ]),
   ],
-  controllers: [AuthController],
+  controllers: [AuthReg001],
 })
 export class RegistrationModule {}

@@ -84,11 +84,20 @@
     "@nestjs/core": "catalog:",
     "@nestjs/microservices": "catalog:",
     "@nestjs/platform-express": "catalog:",
+    "@prisma/adapter-pg": "^7.9.1",
+    "@prisma/client": "^7.9.1",
+    "@types/nodemailer": "^8.0.1",
+    "nodemailer": "^9.0.5",
+    "pg": "^8.22.0",
     "reflect-metadata": "catalog:",
     "rxjs": "catalog:",
     "tslib": "catalog:"
   },
   "devDependencies": {
-    "@nestjs/testing": "catalog:"
+    "@brakebein/prisma-generator-nestjs-dto": "^1.30.0",
+    "@nestjs/testing": "catalog:",
+    "@types/pg": "^8.20.4",
+    "dotenv": "^17.4.2",
+    "prisma": "^7.9.1"
   }
 }

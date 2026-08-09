@@ -1,3 +1,3 @@
 export const AUTH_PATTERNS = {
-  HELLO: 'auth.hello',
+  REG001: 'auth.reg001',
 } as const;
