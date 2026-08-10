@@ -1,22 +1,16 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { apiGatewayEnvSchema } from '@esp/shared';
+import { otpServiceEnvSchema } from '@esp/shared';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserModule } from './user/user.module';
-import { MasterModule } from './master/master.module';
-import { RegistrationModule } from './auth/auth.module';
 import { OtpModule } from './otp/otp.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      validationSchema: apiGatewayEnvSchema,
+      validationSchema: otpServiceEnvSchema,
     }),
-    UserModule,
-    MasterModule,
-    RegistrationModule,
     OtpModule,
   ],
   controllers: [AppController],

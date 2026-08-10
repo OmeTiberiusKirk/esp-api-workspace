@@ -28,7 +28,6 @@ export class AuthReg001 {
   @ApiBody({
     type: CreateUserDto,
   })
-  @ApiBearerAuth('JWT-auth')
   @Post()
   async register(@Body() body: CreateUserDto) {
     const personal = new CreatePersonalDto(body.personal);
@@ -49,5 +48,15 @@ export class AuthReg001 {
     }
 
     return send(this.client, AUTH_PATTERNS.REG001, body);
+  }
+
+  @Post('send-otp')
+  async send() {
+    return 'send otp';
+  }
+
+  @Post('verify-otp')
+  verifyOtp() {
+    return 'verify otp';
   }
 }
