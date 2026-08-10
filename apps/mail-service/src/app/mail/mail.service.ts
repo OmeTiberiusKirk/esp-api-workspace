@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class OtpService {
+export class MailService {
   hello(): { message: string } {
-    return { message: 'hello otp' };
+    return { message: 'hello mail' };
   }
 }

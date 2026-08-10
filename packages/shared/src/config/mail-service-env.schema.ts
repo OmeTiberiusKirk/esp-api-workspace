@@ -1,6 +1,6 @@
 import * as Joi from 'joi';
 
-export const otpServiceEnvSchema = Joi.object({
+export const mailServiceEnvSchema = Joi.object({
   NODE_ENV: Joi.string()
     .valid('development', 'production', 'test')
     .default('development'),

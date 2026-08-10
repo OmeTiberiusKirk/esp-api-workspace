@@ -49,14 +49,4 @@ export class AuthReg001 {
 
     return send(this.client, AUTH_PATTERNS.REG001, body);
   }
-
-  @Post('send-otp')
-  async send() {
-    return 'send otp';
-  }
-
-  @Post('verify-otp')
-  verifyOtp() {
-    return 'verify otp';
-  }
 }

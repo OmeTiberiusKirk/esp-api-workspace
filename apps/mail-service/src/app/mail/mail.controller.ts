@@ -1,14 +1,14 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
-import { OTP_PATTERNS } from '@esp/shared';
-import { OtpService } from './otp.service';
+import { MAIL_PATTERNS } from '@esp/shared';
+import { MailService } from './mail.service';
 
 @Controller()
-export class OtpController {
-  constructor(private readonly otpService: OtpService) {}
+export class MailController {
+  constructor(private readonly mailService: MailService) {}
 
-  @MessagePattern(OTP_PATTERNS.HELLO)
+  @MessagePattern(MAIL_PATTERNS.HELLO)
   hello() {
-    return this.otpService.hello();
+    return this.mailService.hello();
   }
 }

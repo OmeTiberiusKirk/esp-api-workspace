@@ -6,7 +6,7 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { MasterModule } from './master/master.module';
 import { RegistrationModule } from './auth/auth.module';
-import { OtpModule } from './otp/otp.module';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -17,7 +17,7 @@ import { OtpModule } from './otp/otp.module';
     UserModule,
     MasterModule,
     RegistrationModule,
-    OtpModule,
+    MailModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,3 +1,3 @@
-export const OTP_PATTERNS = {
-  HELLO: 'otp.hello',
+export const MAIL_PATTERNS = {
+  HELLO: 'mail.hello',
 } as const;

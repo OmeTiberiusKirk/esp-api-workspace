@@ -17,7 +17,7 @@ async function bootstrap() {
     },
   });
   await app.startAllMicroservices();
-  Logger.log(`🚀 OTP service TCP microservice listening on port ${port}`);
+  Logger.log(`🚀 Mail service TCP microservice listening on port ${port}`);
 }
 
 bootstrap();

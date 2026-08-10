@@ -1,25 +1,25 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ConfigService } from '@nestjs/config';
-import { OtpController } from './otp.controller';
-import { OTP_SERVICE_CLIENT } from '../../assets/constants/service-clients.constants';
+import { MailController } from './mail.controller';
+import { MAIL_SERVICE_CLIENT } from '../../assets/constants/service-clients.constants';
 
 @Module({
   imports: [
     ClientsModule.registerAsync([
       {
-        name: OTP_SERVICE_CLIENT,
+        name: MAIL_SERVICE_CLIENT,
         useFactory: (configService: ConfigService) => ({
           transport: Transport.TCP,
           options: {
-            host: configService.get<string>('OTP_SERVICE_HOST'),
-            port: configService.get<number>('OTP_SERVICE_PORT'),
+            host: configService.get<string>('MAIL_SERVICE_HOST'),
+            port: configService.get<number>('MAIL_SERVICE_PORT'),
           },
         }),
         inject: [ConfigService],
       },
     ]),
   ],
-  controllers: [OtpController],
+  controllers: [MailController],
 })
-export class OtpModule {}
+export class MailModule {}

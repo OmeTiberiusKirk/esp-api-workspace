@@ -16,7 +16,7 @@
       "path": "./packages/shared"
     },
     {
-      "path": "./apps/otp-service"
+      "path": "./apps/mail-service"
     }
   ]
 }

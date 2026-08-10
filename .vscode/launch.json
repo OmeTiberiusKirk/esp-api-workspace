@@ -58,9 +58,9 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Debug otp-service with Nx",
+      "name": "Debug @esp/mail-service with Nx",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["exec", "nx", "serve", "otp-service"],
+      "runtimeArgs": ["exec", "nx", "serve", "@esp/mail-service"],
       "env": {
         "NODE_OPTIONS": "--inspect=9232"
       },
@@ -69,7 +69,7 @@
       "skipFiles": ["<node_internals>/**"],
       "sourceMaps": true,
       "outFiles": [
-        "${workspaceFolder}/apps/otp-service/dist/**/*.(m|c|)js",
+        "${workspaceFolder}/apps/mail-service/dist/**/*.(m|c|)js",
         "!**/node_modules/**"
       ]
     }
