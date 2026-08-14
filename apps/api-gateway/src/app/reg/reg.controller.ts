@@ -6,23 +6,23 @@ import {
   Inject,
   Post,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { ClientProxy } from '@nestjs/microservices';
 import {
-  AUTH_PATTERNS,
+  REG_PATTERNS,
   CreateAddressDto,
   CreatePersonalDto,
   CreateUserDto,
 } from '@esp/shared';
 import { send } from '../../assets/utils/sendMessage';
-import { AUTH_SERVICE_CLIENT } from '../../assets/constants/service-clients.constants';
+import { REG_SERVICE_CLIENT } from '../../assets/constants/service-clients.constants';
 import { validate } from 'class-validator';
 
-@ApiTags('Auth Service')
-@Controller('auth/reg001')
-export class AuthReg001 {
+@ApiTags('Reg Service')
+@Controller('reg001')
+export class Reg001 {
   constructor(
-    @Inject(AUTH_SERVICE_CLIENT) private readonly client: ClientProxy,
+    @Inject(REG_SERVICE_CLIENT) private readonly client: ClientProxy,
   ) {}
 
   @ApiBody({
@@ -47,6 +47,6 @@ export class AuthReg001 {
       });
     }
 
-    return send(this.client, AUTH_PATTERNS.REG001, body);
+    return send(this.client, REG_PATTERNS.REG001, body);
   }
 }

@@ -27,8 +27,8 @@ const parseCode = (code?: string): number | undefined => {
 };
 
 @Injectable()
-export class AuthService {
-  private readonly logger = new Logger(AuthService.name);
+export class RegService {
+  private readonly logger = new Logger(RegService.name);
 
   constructor(
     private readonly prisma: PrismaService,

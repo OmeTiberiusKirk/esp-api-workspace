@@ -5,8 +5,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { MasterModule } from './master/master.module';
-import { RegistrationModule } from './auth/auth.module';
 import { MailModule } from './mail/mail.module';
+import { RegModule } from './reg/reg.module';
 
 @Module({
   imports: [
@@ -16,7 +16,7 @@ import { MailModule } from './mail/mail.module';
     }),
     UserModule,
     MasterModule,
-    RegistrationModule,
+    RegModule,
     MailModule,
   ],
   controllers: [AppController],

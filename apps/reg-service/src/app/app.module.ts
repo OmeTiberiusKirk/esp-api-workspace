@@ -3,7 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { regServiceEnvSchema, mailerEnvSchema } from '@esp/shared';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AuthModule } from './auth/auth.module';
+import { RegModule } from './reg/reg.module';
 
 @Module({
   imports: [
@@ -11,7 +11,7 @@ import { AuthModule } from './auth/auth.module';
       isGlobal: true,
       validationSchema: regServiceEnvSchema.concat(mailerEnvSchema),
     }),
-    AuthModule,
+    RegModule,
   ],
   controllers: [AppController],
   providers: [AppService],

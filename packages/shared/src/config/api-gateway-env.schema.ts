@@ -7,8 +7,8 @@ export const apiGatewayEnvSchema = Joi.object({
   PORT: Joi.number().port().default(3000),
   MASTER_SERVICE_HOST: Joi.string().default('localhost'),
   MASTER_SERVICE_PORT: Joi.number().port().default(3001),
-  AUTH_SERVICE_HOST: Joi.string().default('localhost'),
-  AUTH_SERVICE_PORT: Joi.number().port().default(3002),
+  REG_SERVICE_HOST: Joi.string().default('localhost'),
+  REG_SERVICE_PORT: Joi.number().port().default(3002),
   MAIL_SERVICE_HOST: Joi.string().default('localhost'),
   MAIL_SERVICE_PORT: Joi.number().port().default(3003),
 });
