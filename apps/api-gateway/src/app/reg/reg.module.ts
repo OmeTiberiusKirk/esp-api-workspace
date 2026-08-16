@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { REG_SERVICE_CLIENT } from '../../assets/constants/service-clients.constants';
+import { REG_SERVICE_CLIENT } from '../../constants/service-clients.constants';
 import { ConfigService } from '@nestjs/config';
 import { Reg001 } from './reg.controller';
 

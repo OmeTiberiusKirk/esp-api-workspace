@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { mailServiceEnvSchema } from '@esp/shared';
+import { mailerServiceEnvSchema } from '@esp/shared';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MailModule } from './mail/mail.module';
@@ -9,7 +9,7 @@ import { MailModule } from './mail/mail.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      validationSchema: mailServiceEnvSchema,
+      validationSchema: mailerServiceEnvSchema,
     }),
     MailModule,
   ],

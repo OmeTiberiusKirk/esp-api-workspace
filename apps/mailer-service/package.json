@@ -1,5 +1,5 @@
 {
-  "name": "@esp/mail-service",
+  "name": "@esp/mailer-service",
   "version": "0.0.1",
   "private": true,
   "nx": {
@@ -9,11 +9,11 @@
         "dependsOn": ["^build"],
         "outputs": ["{options.outputPath}"],
         "options": {
-          "outputPath": "apps/mail-service/dist",
-          "main": "apps/mail-service/src/main.ts",
-          "tsConfig": "apps/mail-service/tsconfig.build.json",
-          "rootDir": "apps/mail-service/src",
-          "assets": ["apps/mail-service/src/assets"],
+          "outputPath": "apps/mailer-service/dist",
+          "main": "apps/mailer-service/src/main.ts",
+          "tsConfig": "apps/mailer-service/tsconfig.build.json",
+          "rootDir": "apps/mailer-service/src",
+          "assets": ["apps/mailer-service/src/assets"],
           "generatePackageJson": false
         },
         "configurations": {
@@ -28,8 +28,8 @@
         "cache": true,
         "executor": "@nx/js:prune-lockfile",
         "outputs": [
-          "{workspaceRoot}/apps/mail-service/dist/package.json",
-          "{workspaceRoot}/apps/mail-service/dist/pnpm-lock.yaml"
+          "{workspaceRoot}/apps/mailer-service/dist/package.json",
+          "{workspaceRoot}/apps/mailer-service/dist/pnpm-lock.yaml"
         ],
         "options": {
           "buildTarget": "build"
@@ -41,7 +41,7 @@
         ],
         "cache": true,
         "outputs": [
-          "{workspaceRoot}/apps/mail-service/dist/workspace_modules"
+          "{workspaceRoot}/apps/mailer-service/dist/workspace_modules"
         ],
         "executor": "@nx/js:copy-workspace-modules",
         "options": {
@@ -63,15 +63,15 @@
           "build"
         ],
         "options": {
-          "buildTarget": "@esp/mail-service:build",
+          "buildTarget": "@esp/mailer-service:build",
           "runBuildTargetDependencies": false
         },
         "configurations": {
           "development": {
-            "buildTarget": "@esp/mail-service:build:development"
+            "buildTarget": "@esp/mailer-service:build:development"
           },
           "production": {
-            "buildTarget": "@esp/mail-service:build:production"
+            "buildTarget": "@esp/mailer-service:build:production"
           }
         }
       }

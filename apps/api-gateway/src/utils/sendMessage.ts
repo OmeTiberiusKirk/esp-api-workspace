@@ -19,6 +19,7 @@ export const send = <T>(
     client.send<ApiResponse<T>>(pattern, data).pipe(
       timeout(timeoutMs),
       catchError((err: unknown) => {
+        console.log(err);
         if (err instanceof TimeoutError) {
           return throwError(
             () =>

@@ -14,8 +14,8 @@ import {
   CreatePersonalDto,
   CreateUserDto,
 } from '@esp/shared';
-import { send } from '../../assets/utils/sendMessage';
-import { REG_SERVICE_CLIENT } from '../../assets/constants/service-clients.constants';
+import { send } from '../../utils/sendMessage';
+import { REG_SERVICE_CLIENT } from '../../constants/service-clients.constants';
 import { validate } from 'class-validator';
 
 @ApiTags('Reg Service')

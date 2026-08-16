@@ -16,7 +16,7 @@
       "path": "./packages/shared"
     },
     {
-      "path": "./apps/mail-service"
+      "path": "./apps/mailer-service"
     }
   ]
 }

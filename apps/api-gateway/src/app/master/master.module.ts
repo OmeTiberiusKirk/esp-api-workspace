@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { MasterController } from './master.controller';
 import { ConfigService } from '@nestjs/config';
-import { MASTER_SERVICE_CLIENT } from '../../assets/constants/service-clients.constants';
+import { MASTER_SERVICE_CLIENT } from '../../constants/service-clients.constants';
 
 @Module({
   imports: [

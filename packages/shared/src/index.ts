@@ -10,5 +10,5 @@ export * from './patterns/mail.patterns.js';
 export * from './config/api-gateway-env.schema.js';
 export * from './config/master-service-env.schema.js';
 export * from './config/reg-service-env.schema.js';
-export * from './config/mail-service-env.schema.js';
+export * from './config/mailer-service-env.schema.js';
 export * from './config/mailer-env.schema.js';

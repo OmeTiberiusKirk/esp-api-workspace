@@ -1,8 +1,8 @@
 import { Controller, Get, Inject, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiQuery } from '@nestjs/swagger';
 import { MASTER_PATTERNS } from '@esp/shared';
-import { send } from '../../assets/utils/sendMessage';
-import { MASTER_SERVICE_CLIENT } from '../../assets/constants/service-clients.constants';
+import { send } from '../../utils/sendMessage';
+import { MASTER_SERVICE_CLIENT } from '../../constants/service-clients.constants';
 import { ClientProxy } from '@nestjs/microservices';
 
 @ApiTags('Master Service')

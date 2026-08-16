@@ -8,14 +8,22 @@ import { NestFactory } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app/app.module';
-import { RpcExceptionFilter } from './assets/filters/rpc-exception.filter';
-import { TransformInterceptor } from './assets/interceptors/transform.interceptor';
+import { RpcExceptionFilter } from './filters/rpc-exception.filter';
+import { TransformInterceptor } from './interceptors/transform.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
-  const globalPrefix = 'api';
+  const globalPrefix = 'espapi';
   app.setGlobalPrefix(globalPrefix);
+
+  const configService = app.get(ConfigService);
+
+  const corsOrigin = configService.get<string>('CORS_ORIGIN');
+  app.enableCors({
+    origin: corsOrigin?.split(',').map((origin) => origin.trim()),
+    credentials: true,
+  });
 
   app.useGlobalFilters(new RpcExceptionFilter());
   app.useGlobalInterceptors(new TransformInterceptor());
@@ -30,7 +38,6 @@ async function bootstrap() {
   );
   SwaggerModule.setup('docs', app, swaggerDocument);
 
-  const configService = app.get(ConfigService);
   const port = configService.get<number>('PORT') || 3000;
   await app.listen(port);
   Logger.log(
