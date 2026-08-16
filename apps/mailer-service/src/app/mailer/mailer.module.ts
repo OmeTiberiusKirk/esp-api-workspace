@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { MailerService } from './mailer.service';
-import { getMailerConfig } from '../../configs/mailer.configs';
 import { createTransport } from 'nodemailer';
+import { getMailerConfig } from '../../configs/mailer.configs';
 
 @Module({
   providers: [

@@ -6,14 +6,20 @@
     "targets": {
       "build": {
         "executor": "@nx/js:tsc",
-        "dependsOn": ["^build"],
-        "outputs": ["{options.outputPath}"],
+        "dependsOn": [
+          "^build"
+        ],
+        "outputs": [
+          "{options.outputPath}"
+        ],
         "options": {
           "outputPath": "apps/mailer-service/dist",
           "main": "apps/mailer-service/src/main.ts",
           "tsConfig": "apps/mailer-service/tsconfig.build.json",
           "rootDir": "apps/mailer-service/src",
-          "assets": ["apps/mailer-service/src/assets"],
+          "assets": [
+            "apps/mailer-service/src/assets"
+          ],
           "generatePackageJson": false
         },
         "configurations": {
@@ -86,12 +92,14 @@
     "@nestjs/platform-express": "catalog:",
     "class-transformer": "catalog:",
     "class-validator": "catalog:",
+    "nodemailer": "^9.0.5",
     "reflect-metadata": "catalog:",
     "rxjs": "catalog:",
     "tslib": "catalog:"
   },
   "devDependencies": {
     "@nestjs/testing": "catalog:",
-    "@types/node": "^24.13.3"
+    "@types/node": "^24.13.3",
+    "@types/nodemailer": "^8.0.1"
   }
 }

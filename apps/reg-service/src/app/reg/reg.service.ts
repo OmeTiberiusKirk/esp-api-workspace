@@ -3,7 +3,6 @@ import { RpcException } from '@nestjs/microservices';
 import { randomUUID } from 'crypto';
 import { maskEmail, maskPersonId, maskPhone } from '../../utils/mask.util';
 import { VerifyUserDto } from '../../dtos/verify-user.dto';
-import { MailerService } from '../mailer/mailer.service';
 import { hashWithSecret } from '../../utils/hash.util';
 import { PrismaService } from '../prisma/prisma.service';
 import { generateTemporaryPassword } from '../../utils/password.util';
@@ -36,7 +35,6 @@ export const CHANNEL_ID_WEBSITE = 1;
 export class RegService {
   constructor(
     private readonly prisma: PrismaService,
-    private readonly mailer: MailerService,
     private readonly otpService: OtpService,
   ) {}
 
@@ -235,12 +233,6 @@ export class RegService {
         password: passwordHash,
         update_dtm: now,
       },
-    });
-
-    await this.mailer.sendAccountVerifiedEmail({
-      to: user.register_email,
-      username: user.register_email,
-      temporaryPassword,
     });
 
     return { message: 'User verified.' };

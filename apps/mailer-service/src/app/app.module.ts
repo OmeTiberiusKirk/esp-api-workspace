@@ -3,7 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { mailerServiceEnvSchema } from '@esp/shared';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { MailModule } from './mail/mail.module';
+import { MailerModule } from './mailer/mailer.module';
 
 @Module({
   imports: [
@@ -11,7 +11,7 @@ import { MailModule } from './mail/mail.module';
       isGlobal: true,
       validationSchema: mailerServiceEnvSchema,
     }),
-    MailModule,
+    MailerModule,
   ],
   controllers: [AppController],
   providers: [AppService],
