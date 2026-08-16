@@ -1,15 +1,13 @@
-import { ConfigService } from '@nestjs/config';
-import type SMTPTransport from 'nodemailer/lib/smtp-transport';
+import { registerAs } from '@nestjs/config';
 
-export const getMailerConfig = (
-  configService: ConfigService,
-): SMTPTransport.Options => ({
-  host: configService.get<string>('EMAIL_HOST'),
-  port: configService.get<number>('EMAIL_PORT'),
-  ...(configService.get<string>('EMAIL_PROVIDER') === 'self' && {
+export default registerAs('mailer', () => ({
+  host: process.env.MAILER_HOST || 'localhost',
+  port: parseInt(process.env.MAILER_PORT || '1025', 10),
+  sender: process.env.MAILER_SENDER,
+  ...((process.env.MAILER_PROVIDER || 'self') === 'self' && {
     auth: {
-      user: configService.get<string>('EMAIL_USER'),
-      pass: configService.get<string>('EMAIL_PASS'),
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
     },
   }),
-});
+}));

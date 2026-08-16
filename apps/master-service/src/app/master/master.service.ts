@@ -59,7 +59,7 @@ export class MasterService {
       .map((r) => ({ code: r.tambon_code!, name: r.tambon_name_th! }));
   }
 
-  async getTitles(): Promise<MasterOption[]> {
+  async getUserTitles(): Promise<MasterOption[]> {
     const rows = await this.prisma.tb_ms_title.findMany({
       where: { record_status: ACTIVE },
       orderBy: { title_seq: 'asc' },

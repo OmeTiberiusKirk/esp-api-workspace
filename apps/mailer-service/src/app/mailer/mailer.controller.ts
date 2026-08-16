@@ -1,16 +1,14 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
-import { MAIL_PATTERNS } from '@esp/shared';
-import { MailerService } from './mailer.service';
+import { MAILER_PATTERNS } from '@esp/shared';
+import { MailerService, type OtpEmailParams } from './mailer.service';
 
 @Controller()
 export class MailController {
-  constructor(private readonly mailService: MailerService) {
-    console.log(this.mailService);
-  }
+  constructor(private readonly mailService: MailerService) {}
 
-  @MessagePattern(MAIL_PATTERNS.HELLO)
-  hello() {
-    return 'Hello from mailer-service!';
+  @MessagePattern(MAILER_PATTERNS.SEND_OTP_EMAIL)
+  async sendOtpEmail(data: OtpEmailParams): Promise<void> {
+    return await this.mailService.sendOtpEmail(data);
   }
 }

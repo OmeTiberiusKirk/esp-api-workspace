@@ -1,7 +1,7 @@
 import { Controller, Get, Inject } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { ClientProxy } from '@nestjs/microservices';
-import { MAIL_PATTERNS } from '@esp/shared';
+import { MAILER_PATTERNS } from '@esp/shared';
 import { send } from '../../utils/sendMessage';
 import { MAILER_SERVICE_CLIENT } from '../../constants/service-clients.constants';
 
@@ -14,6 +14,6 @@ export class MailController {
 
   @Get()
   async hello() {
-    return send(this.client, MAIL_PATTERNS.HELLO, {});
+    return send(this.client, MAILER_PATTERNS.SEND_OTP_EMAIL, {});
   }
 }

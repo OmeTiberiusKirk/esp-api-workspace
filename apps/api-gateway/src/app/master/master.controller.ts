@@ -71,7 +71,7 @@ export class MasterController {
     description:
       'Forwards the request to the Master Service (master-service) via TCP transport and returns the result.',
   })
-  @Get('/titles')
+  @Get('/user-titles')
   async titles() {
     return send(this.client, MASTER_PATTERNS.TITLES, {});
   }

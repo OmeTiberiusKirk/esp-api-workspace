@@ -62,6 +62,9 @@ export class OtpService {
       });
     });
 
+    // ขั้นตอนนี้จะส่งผ่าน tcp ไปยัง mailer-service เพื่อให้ mailer-service เป็นคนส่งอีเมล OTP แทน reg-service
+    // เพิ่มตรงนี้ให้หน่อย
+
     return { message: 'OTP sent', expiresInSeconds: OTP_EXPIRES_MINUTES * 60 };
   }
 
