@@ -12,6 +12,7 @@ import { CreateTbUserAddressDto } from '../../generated/nestjs-dto/create-tbUser
 import { ConnectTbUserRegisterDto } from '../../generated/nestjs-dto/connect-tbUserRegister.dto';
 import { parseCode } from '../../utils/parse-code.util';
 import { CreateUserDto } from '@esp/shared';
+import { OtpService } from './otp.service';
 
 /* record_status: N=Normal, C=Cancel, D=Delete */
 const RECORD_ACTIVE = 'N';
@@ -36,6 +37,7 @@ export class RegService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly mailer: MailerService,
+    private readonly otpService: OtpService,
   ) {}
 
   async createUser({ personal, address, is_thaid_verified }: CreateUserDto) {
@@ -56,6 +58,8 @@ export class RegService {
         data: this.mapToUserAddressCreateInput(userId, address),
       }),
     ]);
+
+    await this.otpService.sendOtp(user);
 
     return {
       user_id: user.user_id,

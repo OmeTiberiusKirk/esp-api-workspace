@@ -3,10 +3,11 @@ import { MailerModule } from '../mailer/mailer.module';
 import { PrismaService } from '../prisma/prisma.service';
 import { RegService } from './reg.service';
 import { RegController } from './reg.controller';
+import { OtpService } from './otp.service';
 
 @Module({
   imports: [MailerModule],
   controllers: [RegController],
-  providers: [RegService, PrismaService],
+  providers: [PrismaService, RegService, OtpService],
 })
 export class RegModule {}
