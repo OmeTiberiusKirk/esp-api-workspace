@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.lib.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "bundler",
+    "emitDeclarationOnly": false,
+    "declaration": true,
+    "tsBuildInfoFile": "dist/tsconfig.build.tsbuildinfo"
+  }
+}

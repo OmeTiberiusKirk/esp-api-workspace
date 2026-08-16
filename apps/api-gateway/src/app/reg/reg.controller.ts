@@ -30,6 +30,7 @@ export class Reg001 {
   })
   @Post()
   async register(@Body() body: CreateUserDto) {
+    console.log('body = ', body);
     const personal = new CreatePersonalDto(body.personal);
     const address = new CreateAddressDto(body.address);
     const pErrors = await validate(personal);
