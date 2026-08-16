@@ -9,6 +9,6 @@ export class RegController {
 
   @MessagePattern(REG_PATTERNS.REG001)
   async register(@Payload() data: CreateUserDto) {
-    return await this.regService.register(data);
+    return await this.regService.createUser(data);
   }
 }

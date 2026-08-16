@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { MailerService } from './mailer.service';
-import { getMailerConfig } from '../../assets/configs/mailer.configs';
+import { getMailerConfig } from '../../configs/mailer.configs';
 import { createTransport } from 'nodemailer';
 
 @Module({

@@ -65,4 +65,14 @@ export class MasterController {
       districtCode,
     });
   }
+
+  @ApiOperation({
+    summary: 'Get titles response',
+    description:
+      'Forwards the request to the Master Service (master-service) via TCP transport and returns the result.',
+  })
+  @Get('/titles')
+  async titles() {
+    return send(this.client, MASTER_PATTERNS.TITLES, {});
+  }
 }

@@ -58,4 +58,15 @@ export class MasterService {
       .filter((r) => r.tambon_code)
       .map((r) => ({ code: r.tambon_code!, name: r.tambon_name_th! }));
   }
+
+  async getTitles(): Promise<MasterOption[]> {
+    const rows = await this.prisma.tb_ms_title.findMany({
+      where: { record_status: ACTIVE },
+      orderBy: { title_seq: 'asc' },
+    });
+
+    return rows
+      .filter((r) => r.title_name)
+      .map((r) => ({ code: r.title_id.toString(), name: r.title_name! }));
+  }
 }

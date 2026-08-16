@@ -5,21 +5,20 @@
   "nx": {
     "targets": {
       "build": {
-        "executor": "nx:run-commands",
+        "executor": "@nx/js:tsc",
         "dependsOn": ["^build"],
+        "outputs": ["{options.outputPath}"],
         "options": {
-          "command": "webpack-cli build",
-          "env": {
-            "NODE_ENV": "production"
-          },
-          "cwd": "apps/master-service"
+          "outputPath": "apps/master-service/dist",
+          "main": "apps/master-service/src/main.ts",
+          "tsConfig": "apps/master-service/tsconfig.build.json",
+          "rootDir": "apps/master-service/src",
+          "assets": ["apps/master-service/src/assets"],
+          "generatePackageJson": false
         },
         "configurations": {
-          "development": {
-            "env": {
-              "NODE_ENV": "development"
-            }
-          }
+          "development": {},
+          "production": {}
         }
       },
       "prune-lockfile": {

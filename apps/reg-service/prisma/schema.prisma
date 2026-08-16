@@ -21,352 +21,294 @@ datasource db {
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
-model tb_ms_method {
-  method_id       BigInt    @id @default(autoincrement())
-  method_name     String?   @db.VarChar(100)
-  method_note     String?   @db.VarChar(250)
-  method_order    Int?
-  method_use_flag String?   @db.Char(1)
-  record_status   String?   @default("N") @db.Char(1)
-  create_dtm      DateTime? @default(now()) @db.Timestamptz(6)
-  create_by       String?   @db.Uuid
-  update_dtm      DateTime? @db.Timestamptz(6)
-  update_by       String?   @db.Uuid
-
-  @@schema("reg")
-}
-
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
-model tb_ms_user_role {
-  user_role_id       BigInt    @id
-  user_role_name     String?   @db.VarChar(100)
-  user_role_note     String?   @db.VarChar(250)
-  user_role_order    Int?
-  user_role_use_flag String?   @db.Char(1)
-  record_status      String?   @db.Char(1)
-  create_dtm         DateTime? @db.Timestamptz(6)
-  create_by          String?   @db.Uuid
-  update_dtm         DateTime? @db.Timestamptz(6)
-  update_by          String?   @db.Uuid
-
-  @@schema("reg")
-}
-
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
-model tb_ms_user_type {
-  user_type_id       BigInt    @id
-  user_type_name     String?   @db.VarChar(100)
-  user_type_note     String?   @db.VarChar(250)
-  user_type_order    Int?
-  user_type_use_flag String?   @db.Char(1)
-  record_status      String?   @db.Char(1)
-  create_dtm         DateTime? @db.Timestamptz(6)
-  create_by          String?   @db.Uuid
-  update_dtm         DateTime? @db.Timestamptz(6)
-  update_by          String?   @db.Uuid
-
-  @@schema("reg")
-}
-
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
-model tb_register_user {
-  user_id                                                                              String                    @id @db.Uuid
-  user_type_id                                                                         Int?
-  user_role_id                                                                         Int?
-  method_id                                                                            Int?
-  channel_id                                                                           Int?
-  user_register_dtm                                                                    DateTime?                 @db.Timestamptz(6)
-  person_id                                                                            String?                   @db.Char(13)
-  title_name_th                                                                        String?                   @db.VarChar(20)
-  first_name_th                                                                        String?                   @db.VarChar(100)
-  middle_name_th                                                                       String?                   @db.VarChar(50)
-  last_name_th                                                                         String?                   @db.VarChar(100)
-  title_name_en                                                                        String?                   @db.VarChar(20)
-  first_name_en                                                                        String?                   @db.VarChar(50)
-  middle_name_en                                                                       String?                   @db.VarChar(50)
-  last_name_en                                                                         String?                   @db.VarChar(50)
-  birth_date                                                                           DateTime?                 @db.Date
-  date_of_expiry                                                                       DateTime?                 @db.Date
-  ial_level                                                                            String?                   @db.VarChar
-  legal_id                                                                             String?                   @db.Char(13)
-  legal_name                                                                           String?                   @db.VarChar(250)
-  land_office_province_id                                                              Int?
-  land_office_id                                                                       Int?
-  land_office_position                                                                 String?                   @db.VarChar(100)
-  private_office_id                                                                    Int?
-  register_mobile_no                                                                   String?                   @db.VarChar(10)
-  register_email                                                                       String?                   @db.VarChar(100)
-  email_verify_flag                                                                    String?                   @db.Char(1)
-  email_verify_dtm                                                                     DateTime?                 @db.Timestamptz(6)
-  user_verify_flag                                                                     String?                   @db.Char(1)
-  user_verify_dtm                                                                      DateTime?                 @db.Timestamptz(6)
-  user_last_login_dtm                                                                  DateTime?                 @db.Timestamptz(6)
-  username                                                                             String?                   @db.VarChar(100)
-  password                                                                             String?                   @db.VarChar(250)
-  password_changed_dtm                                                                 DateTime?                 @db.Timestamptz(6)
-  password_expired_dtm                                                                 DateTime?                 @db.Timestamptz(6)
-  create_dtm                                                                           DateTime?                 @db.Timestamptz(6)
-  create_by                                                                            String?                   @db.Uuid
-  update_dtm                                                                           DateTime?                 @db.Timestamptz(6)
-  update_by                                                                            String?                   @db.Uuid
-  record_status                                                                        String?                   @db.Char(1)
-  tb_user_access_log                                                                   tb_user_access_log[]
-  tb_user_account_lockout                                                              tb_user_account_lockout[]
-  tb_user_address                                                                      tb_user_address[]
-  tb_user_cancel_tb_user_cancel_user_cancel_byTotb_register_user                       tb_user_cancel[]          @relation("tb_user_cancel_user_cancel_byTotb_register_user")
-  tb_user_cancel_tb_user_cancel_user_idTotb_register_user                              tb_user_cancel[]          @relation("tb_user_cancel_user_idTotb_register_user")
-  tb_user_consent                                                                      tb_user_consent[]
-  tb_user_delete                                                                       tb_user_delete[]
-  tb_user_email_otp                                                                    tb_user_email_otp[]
-  tb_user_legal_represent_tb_user_legal_represent_user_idTotb_register_user            tb_user_legal_represent[] @relation("tb_user_legal_represent_user_idTotb_register_user")
-  tb_user_legal_represent_tb_user_legal_represent_user_legal_idTotb_register_user      tb_user_legal_represent[] @relation("tb_user_legal_represent_user_legal_idTotb_register_user")
-  tb_user_reg_attach_file                                                              tb_user_reg_attach_file[]
-  tb_user_session                                                                      tb_user_session[]
-  tb_user_verify_identity_tb_user_verify_identity_user_idTotb_register_user            tb_user_verify_identity[] @relation("tb_user_verify_identity_user_idTotb_register_user")
-  tb_user_verify_identity_tb_user_verify_identity_verify_identity_byTotb_register_user tb_user_verify_identity[] @relation("tb_user_verify_identity_verify_identity_byTotb_register_user")
-
-  @@schema("reg")
-}
-
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
-model tb_user_access_log {
-  access_log_id                  String            @id @db.Uuid
-  access_log_dtm                 DateTime?         @db.Timestamptz(6)
-  user_id                        String?           @db.Uuid
-  access_method_name             String?           @db.VarChar(50)
-  access_channel_name            String?           @db.VarChar(50)
-  access_ip                      String?           @db.VarChar(50)
-  access_device_type             String?           @db.VarChar(50)
-  access_device_name             String?           @db.VarChar(150)
-  access_service_organization    String?           @db.VarChar(10)
-  access_service_name            String?           @db.VarChar(150)
-  access_service_type            String?           @db.VarChar(10)
-  access_service_resquest_dtm    DateTime?         @db.Timestamptz(6)
-  access_service_response_dtm    DateTime?         @db.Timestamptz(6)
-  access_service_response_status String?           @db.Char(1)
-  access_service_data_status     String?           @db.Char(1)
-  access_service_data_size       Int?
-  access_log_encrypt             String?           @db.VarChar(350)
-  tb_register_user               tb_register_user? @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_access_log_user_id")
-
-  @@schema("reg")
-}
-
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model tb_user_account_lockout {
-  account_lockout_id        String            @id @db.Uuid
+  account_lockout_id        String            @id(map: "pk_tb_user_account_lockout") @db.Uuid
   user_id                   String?           @db.Uuid
   ip_address                String?           @db.VarChar(16)
   account_failed_count      Int?
   account_lockout_start_dtm DateTime?         @db.Timestamptz(6)
   account_lockout_end_dtm   DateTime?         @db.Timestamptz(6)
-  create_dtm                DateTime?         @db.Timestamptz(6)
+  record_status             String?           @default("N") @db.Char(1)
+  create_dtm                DateTime?         @default(now()) @db.Timestamptz(6)
   create_by                 String?           @db.Uuid
   update_dtm                DateTime?         @db.Timestamptz(6)
   update_by                 String?           @db.Uuid
-  record_status             String?           @db.Char(1)
-  tb_register_user          tb_register_user? @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_account_lockout_user_id")
+  tb_user_register          tb_user_register? @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_tb_user_account_lockout_user_id")
 
   @@schema("reg")
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model tb_user_address {
-  user_address_id               String            @id @db.Uuid
-  user_id                       String?           @db.Uuid
-  user_home_no                  String?           @db.VarChar(20)
-  user_moo                      String?           @db.VarChar(10)
-  user_alley                    String?           @db.VarChar(100)
-  user_soi                      String?           @db.VarChar(100)
-  user_road                     String?           @db.VarChar(100)
-  tambol_code                   Int?
-  amphur_code                   Int?
-  province_code                 Int?
-  private_office_id             Int?
-  private_office_certificate_no String?           @db.VarChar(10)
-  private_office_adress_no      String?           @db.VarChar(20)
-  private_office_moo            String?           @db.VarChar(10)
-  private_office_alley          String?           @db.VarChar(100)
-  private_office_soi            String?           @db.VarChar(100)
-  private_office_road           String?           @db.VarChar(100)
-  private_office_tambol_code    Int?
-  private_office_amphur_code    Int?
-  private_office_province_code  Int?
-  private_office_postcode       String?           @db.VarChar(5)
-  private_office_telephone      String?           @db.VarChar(20)
-  private_office_fax            String?           @db.VarChar(20)
-  create_dtm                    DateTime?         @db.Timestamptz(6)
-  create_by                     String?           @db.Uuid
-  update_dtm                    DateTime?         @db.Timestamptz(6)
-  update_by                     String?           @db.Uuid
-  record_status                 String?           @db.Char(1)
-  tb_register_user              tb_register_user? @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_address_user_id")
+  user_address_id  String            @id(map: "pk_tb_user_address") @db.Uuid
+  user_id          String?           @db.Uuid
+  user_home_no     String?           @db.VarChar(20)
+  user_moo         String?           @db.VarChar(10)
+  user_alley       String?           @db.VarChar(100)
+  user_soi         String?           @db.VarChar(100)
+  user_road        String?           @db.VarChar(100)
+  tambon_seq       Int?
+  amphoe_seq       Int?
+  province_seq     Int?
+  tambol_name      String?           @db.VarChar(100)
+  amphoe_name      String?           @db.VarChar(100)
+  province_name    String?           @db.VarChar(100)
+  record_status    String?           @default("N") @db.Char(1)
+  create_dtm       DateTime?         @default(now()) @db.Timestamptz(6)
+  create_by        String?           @db.Uuid
+  update_dtm       DateTime?         @db.Timestamptz(6)
+  update_by        String?           @db.Uuid
+  tb_user_register tb_user_register? @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_tb_user_address_user_id")
 
   @@schema("reg")
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model tb_user_cancel {
-  user_cancel_id                                                   String            @id @db.Uuid
-  user_id                                                          String?           @db.Uuid
-  user_cancel_dtm                                                  DateTime?         @db.Timestamptz(6)
-  user_cancel_reason                                               String?           @db.VarChar(150)
-  user_cancel_by                                                   String?           @db.Uuid
-  create_dtm                                                       DateTime?         @db.Timestamptz(6)
-  create_by                                                        String?           @db.Uuid
-  update_dtm                                                       DateTime?         @db.Timestamptz(6)
-  update_by                                                        String?           @db.Uuid
-  record_status                                                    String?           @db.Char(1)
-  tb_register_user_tb_user_cancel_user_cancel_byTotb_register_user tb_register_user? @relation("tb_user_cancel_user_cancel_byTotb_register_user", fields: [user_cancel_by], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_cancel_user_cancel_by")
-  tb_register_user_tb_user_cancel_user_idTotb_register_user        tb_register_user? @relation("tb_user_cancel_user_idTotb_register_user", fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_cancel_user_id")
+  user_cancel_id     String            @id(map: "pk_tb_user_cancel") @db.Uuid
+  user_id            String?           @db.Uuid
+  user_cancel_dtm    DateTime?         @db.Timestamptz(6)
+  user_cancel_reason String?           @db.VarChar(150)
+  user_cancel_by     String?           @db.Uuid
+  record_status      String?           @default("N") @db.Char(1)
+  create_dtm         DateTime?         @default(now()) @db.Timestamptz(6)
+  create_by          String?           @db.Uuid
+  update_dtm         DateTime?         @db.Timestamptz(6)
+  update_by          String?           @db.Uuid
+  tb_user_register   tb_user_register? @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_tb_user_cancel_user_id")
 
   @@schema("reg")
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model tb_user_consent {
-  consent_id                  String            @id @db.Uuid
+  consent_id                  String            @id(map: "pk_tb_user_consent") @db.Uuid
   user_id                     String?           @db.Uuid
   channel_id                  Int?
-  consent_pdpa                String?           @db.Char(1)
+  consent_pdpa                String?           @default("2") @db.Char(1)
   consent_pdpa_dtm            DateTime?         @db.Timestamptz(6)
-  consent_document_wallet     String?           @db.Char(1)
+  consent_document_wallet     String?           @default("2") @db.Char(1)
   consent_document_wallet_dtm DateTime?         @db.Timestamptz(6)
-  create_dtm                  DateTime?         @db.Timestamptz(6)
+  record_status               String?           @default("N") @db.Char(1)
+  create_dtm                  DateTime?         @default(now()) @db.Timestamptz(6)
   create_by                   String?           @db.Uuid
   update_dtm                  DateTime?         @db.Timestamptz(6)
   update_by                   String?           @db.Uuid
-  record_status               String?           @db.Char(1)
-  tb_register_user            tb_register_user? @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_consent_user_id")
+  tb_user_register            tb_user_register? @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_tb_user_consent_user_id")
 
   @@schema("reg")
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model tb_user_delete {
-  user_deleted_id  String            @id @db.Uuid
+  user_deleted_id  String            @id(map: "pk_tb_user_delete") @db.Uuid
   user_id          String?           @db.Uuid
   user_deleted_dtm DateTime?         @db.Timestamptz(6)
-  create_dtm       DateTime?         @db.Timestamptz(6)
+  record_status    String?           @default("N") @db.Char(1)
+  create_dtm       DateTime?         @default(now()) @db.Timestamptz(6)
   create_by        String?           @db.Uuid
   update_dtm       DateTime?         @db.Timestamptz(6)
   update_by        String?           @db.Uuid
-  record_status    String?           @db.Char(1)
-  tb_register_user tb_register_user? @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_delete_user_id")
+  tb_user_register tb_user_register? @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_tb_user_delete_user_id")
+
+  @@schema("reg")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_user_department_address {
+  department_address_id         String            @id(map: "pk_tb_user_department_address") @db.Uuid
+  user_id                       String?           @db.Uuid
+  department_type               String?           @db.Char(1)
+  department_id                 Int?
+  private_office_certificate_no String?           @db.VarChar(10)
+  department_adress_no          String?           @db.VarChar(20)
+  department_moo                String?           @db.VarChar(10)
+  department_alley              String?           @db.VarChar(100)
+  department_soi                String?           @db.VarChar(100)
+  department_road               String?           @db.VarChar(100)
+  department_tambon_seq         Int?
+  department_amphoe_seq         Int?
+  department_province_seq       Int?
+  department_postcode           String?           @db.VarChar(5)
+  department_telephone          String?           @db.VarChar(20)
+  department_fax                String?           @db.VarChar(20)
+  record_status                 String?           @default("N") @db.Char(1)
+  create_dtm                    DateTime?         @default(now()) @db.Timestamptz(6)
+  create_by                     String?           @db.Uuid
+  update_dtm                    DateTime?         @db.Timestamptz(6)
+  update_by                     String?           @db.Uuid
+  tb_user_register              tb_user_register? @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_tb_user_department_address_user_id")
 
   @@schema("reg")
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model tb_user_email_otp {
-  email_otp_id     String            @id @db.Uuid
+  email_otp_id     String            @id(map: "pk_tb_user_email_otp") @db.Uuid
   user_id          String?           @db.Uuid
   email_otp        String?           @db.VarChar(100)
+  otp_type         String?           @db.VarChar(100)
   otp              String?           @db.VarChar(100)
-  ref_code         String?           @db.VarChar(10)
+  ref_code         String?           @db.VarChar(100)
   otp_expire_dtm   DateTime?         @db.Timestamptz(6)
-  otp_flag         String?           @db.Char(1)
-  create_dtm       DateTime?         @db.Timestamptz(6)
+  otp_flag         String?           @default("0") @db.Char(1)
+  record_status    String?           @default("N") @db.Char(1)
+  create_dtm       DateTime?         @default(now()) @db.Timestamptz(6)
   create_by        String?           @db.Uuid
   update_dtm       DateTime?         @db.Timestamptz(6)
   update_by        String?           @db.Uuid
-  record_status    String?           @db.Char(1)
-  tb_register_user tb_register_user? @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_email_otp_user_id")
+  tb_user_register tb_user_register? @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_tb_user_email_otp_user_id")
 
   @@schema("reg")
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model tb_user_legal_represent {
-  legal_represent_id                                                       String                           @id @db.Uuid
-  user_id                                                                  String?                          @db.Uuid
-  user_legal_id                                                            String?                          @db.Uuid
-  represent_date                                                           DateTime?                        @db.Date
-  effective_start_date                                                     DateTime?                        @db.Date
-  effective_end_date                                                       DateTime?                        @db.Date
-  represent_description                                                    String?                          @db.VarChar(250)
-  reason_cancel                                                            String?                          @db.VarChar(250)
-  create_dtm                                                               DateTime?                        @db.Timestamptz(6)
-  create_by                                                                String?                          @db.Uuid
-  update_dtm                                                               DateTime?                        @db.Timestamptz(6)
-  update_by                                                                String?                          @db.Uuid
-  record_status                                                            String?                          @db.Char(1)
-  tb_register_user_tb_user_legal_represent_user_idTotb_register_user       tb_register_user?                @relation("tb_user_legal_represent_user_idTotb_register_user", fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_legal_represent_user_id")
-  tb_register_user_tb_user_legal_represent_user_legal_idTotb_register_user tb_register_user?                @relation("tb_user_legal_represent_user_legal_idTotb_register_user", fields: [user_legal_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_legal_represent_user_legal_id")
-  tb_user_legal_represent_attach                                           tb_user_legal_represent_attach[]
+  legal_represent_id             String                           @id(map: "pk_tb_user_legal_represent") @db.Uuid
+  user_id                        String?                          @db.Uuid
+  user_legal_id                  String?                          @db.Uuid
+  represent_date                 DateTime?                        @db.Date
+  effective_start_date           DateTime?                        @db.Date
+  effective_end_date             DateTime?                        @db.Date
+  represent_description          String?                          @db.VarChar(250)
+  reason_cancel                  String?                          @db.VarChar(250)
+  record_status                  String?                          @default("N") @db.Char(1)
+  create_dtm                     DateTime?                        @default(now()) @db.Timestamptz(6)
+  create_by                      String?                          @db.Uuid
+  update_dtm                     DateTime?                        @db.Timestamptz(6)
+  update_by                      String?                          @db.Uuid
+  tb_user_register               tb_user_register?                @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_tb_user_legal_represent_user_id")
+  tb_user_legal_represent_attach tb_user_legal_represent_attach[]
 
   @@schema("reg")
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model tb_user_legal_represent_attach {
-  represent_file_id       String                   @id @db.Uuid
+  represent_file_id       String                   @id(map: "pk_tb_user_legal_represent_attach") @db.Uuid
   legal_represent_id      String?                  @db.Uuid
   represent_file_name     String?                  @db.VarChar(150)
   represent_file_size     Int?
   represent_file_path     String?                  @db.VarChar(250)
-  create_dtm              DateTime?                @db.Timestamptz(6)
+  record_status           String?                  @default("N") @db.Char(1)
+  create_dtm              DateTime?                @default(now()) @db.Timestamptz(6)
   create_by               String?                  @db.Uuid
   update_dtm              DateTime?                @db.Timestamptz(6)
   update_by               String?                  @db.Uuid
-  record_status           String?                  @db.Char(1)
-  tb_user_legal_represent tb_user_legal_represent? @relation(fields: [legal_represent_id], references: [legal_represent_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_legal_represent_attach_legal_represent_id")
+  tb_user_legal_represent tb_user_legal_represent? @relation(fields: [legal_represent_id], references: [legal_represent_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_tb_user_legal_represent_attach_legal_represent_id")
 
   @@schema("reg")
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model tb_user_reg_attach_file {
-  reg_attach_file_id String            @id @db.Uuid
+  reg_attach_file_id String            @id(map: "pk_tb_user_reg_attach_file") @db.Uuid
   user_id            String?           @db.Uuid
   file_name          String?           @db.VarChar(500)
   file_path          String?
   file_mime_type     String?           @db.VarChar(100)
   file_size          Int?
-  create_dtm         DateTime?         @db.Timestamptz(6)
+  record_status      String?           @default("N") @db.Char(1)
+  create_dtm         DateTime?         @default(now()) @db.Timestamptz(6)
   create_by          String?           @db.Uuid
   update_dtm         DateTime?         @db.Timestamptz(6)
   update_by          String?           @db.Uuid
-  record_status      String?           @db.Char(1)
-  tb_register_user   tb_register_user? @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_reg_attach_file_user_id")
+  tb_user_register   tb_user_register? @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_tb_user_reg_attach_file_user_id")
+
+  @@schema("reg")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model tb_user_register {
+  user_id                    String                       @id(map: "pk_tb_user_register") @db.Uuid
+  user_type_id               Int?
+  user_role_id               Int?
+  method_id                  Int?
+  channel_id                 Int?
+  user_register_dtm          DateTime?                    @db.Timestamptz(6)
+  person_id                  String?                      @db.Char(13)
+  title_id                   Int?
+  title_name_th              String?                      @db.VarChar(20)
+  first_name_th              String?                      @db.VarChar(100)
+  middle_name_th             String?                      @db.VarChar(50)
+  last_name_th               String?                      @db.VarChar(100)
+  title_name_en              String?                      @db.VarChar(20)
+  first_name_en              String?                      @db.VarChar(50)
+  middle_name_en             String?                      @db.VarChar(50)
+  last_name_en               String?                      @db.VarChar(50)
+  birth_date                 DateTime?                    @db.Date
+  date_of_expiry             DateTime?                    @db.Date
+  ial_level                  String?                      @db.VarChar
+  legal_id                   String?                      @db.Char(13)
+  legal_name                 String?                      @db.VarChar(250)
+  land_office_province_seq   Int?
+  land_office_seq            Int?
+  land_office_position       String?                      @db.VarChar(100)
+  register_mobile_no         String?                      @db.VarChar(10)
+  register_email             String?                      @db.VarChar(100)
+  email_verify_flag          String?                      @default("0") @db.Char(1)
+  email_verify_dtm           DateTime?                    @db.Timestamptz(6)
+  user_verify_flag           String?                      @default("0") @db.Char(1)
+  user_verify_dtm            DateTime?                    @db.Timestamptz(6)
+  user_last_login_dtm        DateTime?                    @db.Timestamptz(6)
+  username                   String?                      @db.VarChar(100)
+  password                   String?                      @db.VarChar(250)
+  password_changed_dtm       DateTime?                    @db.Timestamptz(6)
+  password_expired_dtm       DateTime?                    @db.Timestamptz(6)
+  record_status              String?                      @default("N") @db.Char(1)
+  create_dtm                 DateTime?                    @default(now()) @db.Timestamptz(6)
+  create_by                  String?                      @db.Uuid
+  update_dtm                 DateTime?                    @db.Timestamptz(6)
+  update_by                  String?                      @db.Uuid
+  tb_user_account_lockout    tb_user_account_lockout[]
+  tb_user_address            tb_user_address[]
+  tb_user_cancel             tb_user_cancel[]
+  tb_user_consent            tb_user_consent[]
+  tb_user_delete             tb_user_delete[]
+  tb_user_department_address tb_user_department_address[]
+  tb_user_email_otp          tb_user_email_otp[]
+  tb_user_legal_represent    tb_user_legal_represent[]
+  tb_user_reg_attach_file    tb_user_reg_attach_file[]
+  tb_user_session            tb_user_session[]
+  tb_user_verify_identity    tb_user_verify_identity[]
 
   @@schema("reg")
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model tb_user_session {
-  session_id         String            @id @db.Uuid
+  session_id         String            @id(map: "pk_tb_user_session") @db.Uuid
   user_id            String?           @db.Uuid
   session_start_dtm  DateTime?         @db.Timestamptz(6)
   session_expire_dtm DateTime?         @db.Timestamptz(6)
   session_logout_dtm DateTime?         @db.Timestamptz(6)
-  create_dtm         DateTime?         @db.Timestamptz(6)
+  record_status      String?           @default("N") @db.Char(1)
+  create_dtm         DateTime?         @default(now()) @db.Timestamptz(6)
   create_by          String?           @db.Uuid
   update_dtm         DateTime?         @db.Timestamptz(6)
   update_by          String?           @db.Uuid
-  record_status      String?           @db.Char(1)
-  tb_register_user   tb_register_user? @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_session_user_id")
+  tb_user_register   tb_user_register? @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_tb_user_session_user_id")
 
   @@schema("reg")
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model tb_user_verify_identity {
-  verify_identity_id                                                            String            @id @db.Uuid
-  user_id                                                                       String?           @db.Uuid
-  verify_identity_flag                                                          String?           @db.Char(1)
-  verify_identity_by                                                            String?           @db.Uuid
-  verify_identity_landoffice_id                                                 Int?
-  verify_identity_date                                                          DateTime?         @db.Timestamptz(6)
-  verify_identity_cancel_date                                                   DateTime?         @db.Date
-  verify_identity_cancel_reason                                                 String?           @db.VarChar(250)
-  create_dtm                                                                    DateTime?         @db.Timestamptz(6)
-  create_by                                                                     String?           @db.Uuid
-  update_dtm                                                                    DateTime?         @db.Timestamptz(6)
-  update_by                                                                     String?           @db.Uuid
-  record_status                                                                 String?           @db.Char(1)
-  tb_register_user_tb_user_verify_identity_user_idTotb_register_user            tb_register_user? @relation("tb_user_verify_identity_user_idTotb_register_user", fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_verify_identity_user_id")
-  tb_register_user_tb_user_verify_identity_verify_identity_byTotb_register_user tb_register_user? @relation("tb_user_verify_identity_verify_identity_byTotb_register_user", fields: [verify_identity_by], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_verify_identity_verify_identity_by")
+  verify_identity_id            String            @id(map: "pk_tb_user_verify_identity") @db.Uuid
+  user_id                       String?           @db.Uuid
+  verify_identity_flag          String?           @db.Char(1)
+  verify_identity_by            String?           @db.Uuid
+  verify_identity_landoffice_id Int?
+  verify_identity_date          DateTime?         @db.Timestamptz(6)
+  verify_identity_cancel_date   DateTime?         @db.Date
+  verify_identity_cancel_reason String?           @db.VarChar(250)
+  record_status                 String?           @default("N") @db.Char(1)
+  create_dtm                    DateTime?         @default(now()) @db.Timestamptz(6)
+  create_by                     String?           @db.Uuid
+  update_dtm                    DateTime?         @db.Timestamptz(6)
+  update_by                     String?           @db.Uuid
+  tb_user_register              tb_user_register? @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_tb_user_verify_identity_user_id")
 
   @@schema("reg")
 }

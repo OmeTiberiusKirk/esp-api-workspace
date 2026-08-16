@@ -5,21 +5,20 @@
   "nx": {
     "targets": {
       "build": {
-        "executor": "nx:run-commands",
+        "executor": "@nx/js:tsc",
         "dependsOn": ["^build"],
+        "outputs": ["{options.outputPath}"],
         "options": {
-          "command": "webpack-cli build",
-          "env": {
-            "NODE_ENV": "production"
-          },
-          "cwd": "apps/mail-service"
+          "outputPath": "apps/mail-service/dist",
+          "main": "apps/mail-service/src/main.ts",
+          "tsConfig": "apps/mail-service/tsconfig.build.json",
+          "rootDir": "apps/mail-service/src",
+          "assets": ["apps/mail-service/src/assets"],
+          "generatePackageJson": false
         },
         "configurations": {
-          "development": {
-            "env": {
-              "NODE_ENV": "development"
-            }
-          }
+          "development": {},
+          "production": {}
         }
       },
       "prune-lockfile": {

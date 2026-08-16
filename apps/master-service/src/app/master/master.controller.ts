@@ -26,4 +26,9 @@ export class MasterController {
       data.districtCode,
     );
   }
+
+  @MessagePattern(MASTER_PATTERNS.TITLES)
+  async getTitles() {
+    return this.masterService.getTitles();
+  }
 }
