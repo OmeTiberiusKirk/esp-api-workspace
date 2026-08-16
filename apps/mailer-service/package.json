@@ -18,7 +18,11 @@
           "tsConfig": "apps/mailer-service/tsconfig.build.json",
           "rootDir": "apps/mailer-service/src",
           "assets": [
-            "apps/mailer-service/src/assets"
+            {
+              "glob": "**/*",
+              "input": "apps/mailer-service/src/app/mailer/assets",
+              "output": "app/mailer/assets"
+            }
           ],
           "generatePackageJson": false
         },

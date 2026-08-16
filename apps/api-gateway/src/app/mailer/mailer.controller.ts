@@ -5,15 +5,15 @@ import { MAILER_PATTERNS } from '@esp/shared';
 import { send } from '../../utils/sendMessage';
 import { MAILER_SERVICE_CLIENT } from '../../constants/service-clients.constants';
 
-@ApiTags('Mail Service')
-@Controller('mail')
+@ApiTags('Mailer Service')
+@Controller('mailer')
 export class MailController {
   constructor(
     @Inject(MAILER_SERVICE_CLIENT) private readonly client: ClientProxy,
   ) {}
 
   @Get()
-  async hello() {
+  async sendOtpEmail() {
     return send(this.client, MAILER_PATTERNS.SEND_OTP_EMAIL, {});
   }
 }

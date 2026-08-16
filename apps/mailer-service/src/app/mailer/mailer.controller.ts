@@ -8,7 +8,8 @@ export class MailController {
   constructor(private readonly mailService: MailerService) {}
 
   @MessagePattern(MAILER_PATTERNS.SEND_OTP_EMAIL)
-  async sendOtpEmail(data: OtpEmailParams): Promise<void> {
-    return await this.mailService.sendOtpEmail(data);
+  async sendOtpEmail(data: OtpEmailParams): Promise<{ success: true }> {
+    await this.mailService.sendOtpEmail(data);
+    return { success: true };
   }
 }

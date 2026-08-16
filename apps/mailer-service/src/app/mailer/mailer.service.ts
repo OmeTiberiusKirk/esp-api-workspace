@@ -1,6 +1,6 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { type Transporter } from 'nodemailer';
-import SMTPTransport from 'nodemailer/lib/smtp-transport';
 import { join } from 'path';
 
 export interface OtpEmailParams {
@@ -73,12 +73,12 @@ const renderAccountVerifiedEmailHtml = (
 
 @Injectable()
 export class MailerService {
+  private readonly logger = new Logger(MailerService.name);
+
   constructor(
+    private configService: ConfigService,
     @Inject('transporter')
-    private transporter: Transporter<
-      SMTPTransport.SentMessageInfo,
-      SMTPTransport.Options
-    >,
+    private transporter: Transporter,
   ) {}
 
   /* contentDisposition: 'inline' บังคับให้ mail client แสดงรูปในเนื้อหาอีเมลเสมอ
@@ -99,20 +99,24 @@ export class MailerService {
   ];
 
   async sendOtpEmail(params: OtpEmailParams): Promise<void> {
-    await this.transporter.sendMail({
-      from: `"e-service plus" <${process.env.OAUTH2_EMAIL}>`,
-      to: params.to,
-      subject: params.subjectLine,
-      html: renderOtpEmailHtml(params),
-      attachments: this.assetAttachments,
-    });
+    try {
+      await this.transporter.sendMail({
+        from: `"e-service plus" <${this.configService.get<string>('mailer.sender')}>`,
+        to: params.to,
+        subject: params.subjectLine,
+        html: renderOtpEmailHtml(params),
+        attachments: this.assetAttachments,
+      });
+    } catch (error) {
+      this.logger.error('Failed to send OTP email', error);
+    }
   }
 
   async sendAccountVerifiedEmail(
     params: AccountVerifiedEmailParams,
   ): Promise<void> {
     await this.transporter.sendMail({
-      from: `"e-service plus" <${process.env.OAUTH2_EMAIL}>`,
+      from: `"e-service plus" <${this.configService.get<string>('mailer.sender')}>`,
       to: params.to,
       subject: 'แจ้งผลการยืนยันตัวตนและรหัสผ่านเข้าใช้งานระบบ',
       html: renderAccountVerifiedEmailHtml(params),

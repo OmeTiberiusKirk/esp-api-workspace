@@ -1,4 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
+import { firstValueFrom, timeout } from 'rxjs';
+import { MAILER_PATTERNS } from '@esp/shared';
 import { PrismaService } from '../prisma/prisma.service';
 import {
   OTP_EXPIRES_MINUTES,
@@ -9,10 +12,14 @@ import {
 } from '../../constants/otp';
 import { createHmac, randomBytes, randomInt, randomUUID } from 'node:crypto';
 import { TbUserRegister } from '../../generated/nestjs-dto/tbUserRegister.entity';
+import { MAILER_SERVICE_CLIENT } from '../../constants/service-clients.constants';
 
 @Injectable()
 export class OtpService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    @Inject(MAILER_SERVICE_CLIENT) private readonly mailerClient: ClientProxy,
+  ) {}
 
   async sendOtp(
     user: TbUserRegister,
@@ -62,10 +69,29 @@ export class OtpService {
       });
     });
 
-    // ขั้นตอนนี้จะส่งผ่าน tcp ไปยัง mailer-service เพื่อให้ mailer-service เป็นคนส่งอีเมล OTP แทน reg-service
-    // เพิ่มตรงนี้ให้หน่อย
+    await firstValueFrom(
+      this.mailerClient
+        .send<{ success: true }>(MAILER_PATTERNS.SEND_OTP_EMAIL, {
+          to: user.register_email,
+          recipientName: this.buildRecipientName(user),
+          subjectLine: 'ยืนยันอีเมลสำหรับการลงทะเบียนใช้งานระบบ',
+          description:
+            'กรุณากรอกรหัส OTP ด้านล่างนี้เพื่อยืนยันอีเมลของท่านให้เสร็จสมบูรณ์',
+          otpCode: otp,
+          expiresInMinutes: OTP_EXPIRES_MINUTES,
+        })
+        .pipe(timeout(5_000)),
+    );
 
     return { message: 'OTP sent', expiresInSeconds: OTP_EXPIRES_MINUTES * 60 };
+  }
+
+  private buildRecipientName(user: TbUserRegister): string {
+    return (
+      [user.title_name_th, user.first_name_th, user.last_name_th]
+        .filter(Boolean)
+        .join(' ') || (user.register_email ?? '')
+    );
   }
 
   private generateOtp(): string {

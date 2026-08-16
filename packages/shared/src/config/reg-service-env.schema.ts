@@ -6,4 +6,7 @@ export const regServiceEnvSchema = Joi.object({
     .default('development'),
   PORT: Joi.number().port().default(3002),
   DATABASE_URL: Joi.string().uri().required(),
+
+  MAILER_SERVICE_HOST: Joi.string().default('localhost'),
+  MAILER_SERVICE_PORT: Joi.number().port().default(3004),
 });
