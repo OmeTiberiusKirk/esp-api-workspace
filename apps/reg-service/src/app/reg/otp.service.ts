@@ -9,7 +9,7 @@ import {
   OTP_UNUSED,
   OTP_USED,
   RECORD_ACTIVE,
-} from '../../constants/otp';
+} from '../../constants/otp.constants';
 import { createHmac, randomBytes, randomInt, randomUUID } from 'node:crypto';
 import { TbUserRegister } from '../../generated/nestjs-dto/tbUserRegister.entity';
 import { MAILER_SERVICE_CLIENT } from '../../constants/service-clients.constants';
@@ -90,7 +90,8 @@ export class OtpService {
     return (
       [user.title_name_th, user.first_name_th, user.last_name_th]
         .filter(Boolean)
-        .join(' ') || (user.register_email ?? '')
+        .join(' ') ||
+      (user.register_email ?? '')
     );
   }
 
