@@ -13,6 +13,7 @@ import {
   CreateAddressDto,
   CreatePersonalDto,
   CreateUserDto,
+  VerifyOtpDto,
 } from '@esp/shared';
 import { send } from '../../utils/sendMessage';
 import { REG_SERVICE_CLIENT } from '../../constants/service-clients.constants';
@@ -48,5 +49,13 @@ export class Reg001 {
     }
 
     return send(this.client, REG_PATTERNS.REG001, body);
+  }
+
+  @ApiBody({
+    type: VerifyOtpDto,
+  })
+  @Post('/verify-otp')
+  async verify(@Body() body: VerifyOtpDto) {
+    return send(this.client, REG_PATTERNS.REG001_VERIFY_OTP, body);
   }
 }

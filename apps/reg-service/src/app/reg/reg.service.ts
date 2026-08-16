@@ -10,7 +10,7 @@ import { CreateTbUserRegisterDto } from '../../generated/nestjs-dto/create-tbUse
 import { CreateTbUserAddressDto } from '../../generated/nestjs-dto/create-tbUserAddress.dto';
 import { ConnectTbUserRegisterDto } from '../../generated/nestjs-dto/connect-tbUserRegister.dto';
 import { parseCode } from '../../utils/parse-code.util';
-import { CreateUserDto } from '@esp/shared';
+import { CreateUserDto, VerifyOtpDto } from '@esp/shared';
 import { OtpService } from './otp.service';
 import {
   CHANNEL_ID_WEBSITE,
@@ -58,6 +58,10 @@ export class RegService {
     };
   }
 
+  async verifyOtp(data: VerifyOtpDto): Promise<{ message: string }> {
+    return this.otpService.verifyOtp(data);
+  }
+
   async checkUserExists(personal: CreateUserDto['personal']): Promise<void> {
     const existingUser = await this.prisma.tb_user_register.findFirst({
       where: {
@@ -70,7 +74,8 @@ export class RegService {
     });
 
     if (existingUser) {
-      if (existingUser.user_verify_flag !== EMAIL_VERIFIED) {
+      if (existingUser.email_verify_flag !== EMAIL_VERIFIED) {
+        await this.otpService.sendOtp(existingUser);
         throw new RpcException({
           statusCode: HttpStatus.CONFLICT,
           message: 'EMAIL_NOT_VERIFIED',

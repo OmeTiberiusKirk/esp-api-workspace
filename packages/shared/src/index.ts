@@ -2,6 +2,7 @@ export * from './dto/user/create-user.dto.js';
 export * from './dto/user/create-personal.dto.js';
 export * from './dto/user/create-address.dto.js';
 export * from './dto/user/update-user.dto.js';
+export * from './dto/user/verify-otp.dto.js';
 export * from './dto/common/api-response.interface.js';
 export * from './patterns/user.patterns.js';
 export * from './patterns/master.patterns.js';
