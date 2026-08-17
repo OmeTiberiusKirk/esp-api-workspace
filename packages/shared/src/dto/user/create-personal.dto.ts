@@ -19,6 +19,13 @@ export class CreatePersonalDto {
   user_type_id!: number;
 
   @IsNotEmpty()
+  @IsNumber()
+  @ApiProperty({
+    default: 1,
+  })
+  method_id!: number;
+
+  @IsNotEmpty()
   @IsIdentityCard('TH')
   @ApiProperty({
     default: '1100732983123',
@@ -26,32 +33,39 @@ export class CreatePersonalDto {
   person_id!: string;
 
   @IsNotEmpty()
+  @IsNumber()
+  @ApiProperty({
+    default: 515,
+  })
+  title_id!: number;
+
+  @IsNotEmpty()
   @IsString()
   @ApiProperty({
-    default: 'ศาสตราจารย์',
+    default: 'เจ้าฟ้า',
   })
-  title!: string;
+  title_name_th!: string;
 
   @IsNotEmpty()
   @IsString()
   @ApiProperty({
     default: 'นุกูล',
   })
-  given_name!: string;
+  first_name_th!: string;
 
   @IsOptional()
   @IsString()
   @ApiPropertyOptional({
     default: 'ชื่อกลาง',
   })
-  middle_name?: string;
+  middle_name_th?: string;
 
   @IsNotEmpty()
   @IsString()
   @ApiProperty({
     default: 'เพิ่มสุทธิ',
   })
-  family_name!: string;
+  last_name_th!: string;
 
   @IsOptional()
   @IsDateString()

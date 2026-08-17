@@ -14,11 +14,11 @@ import { CreateUserDto, VerifyOtpDto } from '@esp/shared';
 import { OtpService } from '../otp/otp.service';
 import {
   CHANNEL_ID_WEBSITE,
-  METHOD_ID_THAID,
   METHOD_ID_WEBSITE,
   NOT_VERIFIED,
   RECORD_ACTIVE,
   RECORD_CANCELLED,
+  REGISTRATION_METHODS,
   USER_VERIFY_REJECTED,
 } from '../../constants/registration.constants';
 import { EMAIL_VERIFIED } from '../../constants/otp.constants';
@@ -30,7 +30,7 @@ export class RegService {
     private readonly otpService: OtpService,
   ) {}
 
-  async createUser({ personal, address, is_thaid_verified }: CreateUserDto) {
+  async createUser({ personal, address }: CreateUserDto) {
     /* เช็ค person_id กับ email ซ้ำรวมเป็น query เดียว เจอซ้ำฝั่งไหนก็ตอบ error เดียวกันหมด
        ไม่แยก verified/unverified แล้ว ให้เจ้าหน้าที่จัดการเองแทนการ auto-resume */
     await this.checkUserExists(personal);
@@ -38,11 +38,7 @@ export class RegService {
     const userId = randomUUID();
     const [user] = await this.prisma.$transaction([
       this.prisma.tb_user_register.create({
-        data: this.mapToUserCreateInput(
-          userId,
-          Boolean(is_thaid_verified),
-          personal,
-        ),
+        data: this.mapToUserCreateInput(userId, personal),
       }),
       this.prisma.tb_user_address.create({
         data: this.mapToUserAddressCreateInput(userId, address),
@@ -90,35 +86,26 @@ export class RegService {
 
   private mapToUserCreateInput(
     userId: string,
-    is_thaid_verified: boolean,
     personal: CreateUserDto['personal'],
   ): CreateTbUserRegisterDto {
     const now = new Date();
     /* ผ่าน ThaID มาแล้ว = รัฐยืนยันตัวตนจริงให้เรียบร้อย ไม่ต้องรอไปยืนยันตัวตนที่สำนักงานที่ดินซ้ำอีกรอบ
        ต่างจากสมัครผ่านเว็บปกติที่ user_verify_flag ต้องรอเจ้าหน้าที่อนุมัติ (ยังคง 0 ไปก่อน) */
-    const userVerifyFlag = is_thaid_verified ? EMAIL_VERIFIED : NOT_VERIFIED;
-    const methodId = is_thaid_verified ? METHOD_ID_THAID : METHOD_ID_WEBSITE;
+    const isUserVerified = personal.method_id != REGISTRATION_METHODS.MANUAL;
 
     return {
+      ...personal,
       user_id: userId,
-      method_id: methodId,
       channel_id: CHANNEL_ID_WEBSITE,
-      person_id: personal.person_id,
-      title_name_th: personal.title,
-      first_name_th: personal.given_name,
-      middle_name_th: personal.middle_name,
-      last_name_th: personal.family_name,
       birth_date: personal.birth_date
         ? new Date(personal.birth_date)
         : undefined,
       date_of_expiry: personal.date_of_expiry
         ? new Date(personal.date_of_expiry)
         : undefined,
-      register_email: personal.email,
-      register_mobile_no: personal.mobile_no,
-      email_verify_flag: NOT_VERIFIED,
-      user_verify_flag: userVerifyFlag,
-      user_verify_dtm: is_thaid_verified ? now : undefined,
+      email_verify_flag: isUserVerified ? '1' : '0',
+      user_verify_flag: isUserVerified ? '1' : '0',
+      user_verify_dtm: isUserVerified ? now : undefined,
       record_status: RECORD_ACTIVE,
       user_register_dtm: now,
       create_dtm: now,
@@ -130,18 +117,12 @@ export class RegService {
     address: CreateUserDto['address'],
   ): CreateTbUserAddressDto & ConnectTbUserRegisterDto {
     return {
+      ...address,
       user_address_id: randomUUID(),
       user_id: userId,
-      user_home_no: address.home_no,
-      user_moo: address.moo,
-      user_soi: address.soi,
-      user_road: address.road,
-      tambon_seq: parseCode(address.tambol_code),
-      amphoe_seq: parseCode(address.amphur_code),
-      province_seq: parseCode(address.province_code),
-      tambol_name: address.tambol_name,
-      amphoe_name: address.amphur_name,
-      province_name: address.province_name,
+      tambon_seq: parseCode(address.tambol_seq),
+      amphoe_seq: parseCode(address.amphoe_seq),
+      province_seq: parseCode(address.province_seq),
       record_status: RECORD_ACTIVE,
       create_dtm: new Date(),
     };

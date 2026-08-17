@@ -16,3 +16,26 @@ export const METHOD_ID_WEBSITE = 3;
 
 /* อ้างอิง mas.tb_ms_channel (ค่าตาม seed จริง: 1=Website) */
 export const CHANNEL_ID_WEBSITE = 1;
+
+export const USER_TYPES = {
+  NATURAL_PERSON: 1,
+  JURISTIC_PERSON: 2,
+  JURISTIC_REP: 3,
+  EXTERNAL_AGENCY: 4,
+  LAND_OFFICER: 5,
+} as const;
+
+export const REGISTRATION_METHODS = {
+  THAID: 1,
+  OPENID: 2,
+  MANUAL: 3,
+  DBDID: 4,
+  LDAP: 5,
+  SMART_CARD: 6,
+} as const;
+
+export const USER_VERIFICATION_STATUS = {
+  NOT_VERIFIED: '0',
+  EMAIL_VERIFIED: '1',
+  USER_VERIFY_REJECTED: '2',
+};
