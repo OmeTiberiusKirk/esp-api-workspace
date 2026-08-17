@@ -1,7 +1,7 @@
-export const AUTH_PATTERNS = {
-  REG001: 'reg001',
-  REG001_VERIFY_OTP: 'reg001.verify-otp',
-  REG002_SEND_OTP: 'reg002',
-  REG014_LIST: 'reg014.list',
-  REG014_VERIFY: 'reg014.verify',
+export const REGISTRATION_PATTERNS = {
+  REGISTRATION: 'registration',
+  REGISTRATION_VERIFY_OTP: 'registration.verify-otp',
+  REGISTRATION_RESEND_OTP: 'registration.resend-otp',
+  REGISTRATION_PENDING_LIST: 'registration.pending.list',
+  REGISTRATION_PENDING_VERIFY: 'registration.pending.verify',
 } as const;

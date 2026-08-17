@@ -10,7 +10,7 @@ import {
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { ClientProxy } from '@nestjs/microservices';
 import {
-  AUTH_PATTERNS,
+  REGISTRATION_PATTERNS,
   CreateAddressDto,
   CreatePersonalDto,
   CreateUserDto,
@@ -21,9 +21,9 @@ import { send } from '../../utils/sendMessage';
 import { AUTH_SERVICE_CLIENT } from '../../constants/service-clients.constants';
 import { validate } from 'class-validator';
 
-@ApiTags('Reg Service')
-@Controller('reg001')
-export class Reg001 {
+@ApiTags('Registration')
+@Controller('registration')
+export class RegistrationController {
   constructor(
     @Inject(AUTH_SERVICE_CLIENT) private readonly client: ClientProxy,
   ) {}
@@ -61,7 +61,7 @@ export class Reg001 {
       });
     }
 
-    return send(this.client, AUTH_PATTERNS.REG001, body);
+    return send(this.client, REGISTRATION_PATTERNS.REGISTRATION, body);
   }
 
   @ApiBody({
@@ -69,17 +69,17 @@ export class Reg001 {
   })
   @Post('/verify-otp')
   async verify(@Body() body: VerifyOtpDto) {
-    return send(this.client, AUTH_PATTERNS.REG001_VERIFY_OTP, body);
+    return send(this.client, REGISTRATION_PATTERNS.REGISTRATION_VERIFY_OTP, body);
   }
 
   @Post('/resend-otp')
   async resendOtp(@Body() body: { email: string }) {
-    return send(this.client, AUTH_PATTERNS.REG002_SEND_OTP, body);
+    return send(this.client, REGISTRATION_PATTERNS.REGISTRATION_RESEND_OTP, body);
   }
 
   @Get('/pending')
   async listPending() {
-    return send(this.client, AUTH_PATTERNS.REG014_LIST, {});
+    return send(this.client, REGISTRATION_PATTERNS.REGISTRATION_PENDING_LIST, {});
   }
 
   @ApiBody({
@@ -87,6 +87,6 @@ export class Reg001 {
   })
   @Post('/verify')
   async verifyUser(@Body() body: VerifyUserDto) {
-    return send(this.client, AUTH_PATTERNS.REG014_VERIFY, body);
+    return send(this.client, REGISTRATION_PATTERNS.REGISTRATION_PENDING_VERIFY, body);
   }
 }

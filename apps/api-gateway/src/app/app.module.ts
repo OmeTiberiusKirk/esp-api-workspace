@@ -5,10 +5,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MasterModule } from './master/master.module';
 import { MailModule } from './mailer/mailer.module';
+import { RegistrationModule } from './registration/registration.module';
 import { AuthModule } from './auth/auth.module';
-import { ThaiGovAuthModule } from './thai-gov-auth/thai-gov-auth.module';
-import { LoginModule } from './login/login.module';
-import { DbdidModule } from './dbdid/dbdid.module';
 import { ManageUserModule } from './manage-user/manage-user.module';
 import { MeModule } from './me/me.module';
 import { RegisterDataModule } from './register-data/register-data.module';
@@ -21,11 +19,9 @@ import { RegisterExternalModule } from './register-external/register-external.mo
       validationSchema: apiGatewayEnvSchema,
     }),
     MasterModule,
-    AuthModule,
+    RegistrationModule,
     MailModule,
-    ThaiGovAuthModule,
-    LoginModule,
-    DbdidModule,
+    AuthModule,
     ManageUserModule,
     MeModule,
     RegisterDataModule,

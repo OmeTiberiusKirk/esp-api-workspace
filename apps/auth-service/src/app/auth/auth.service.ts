@@ -15,7 +15,7 @@ import {
 } from '../../constants/registration.constants';
 
 @Injectable()
-export class LoginService {
+export class AuthService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly masterClient: MasterClientService,

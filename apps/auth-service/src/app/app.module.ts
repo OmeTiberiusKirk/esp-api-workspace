@@ -3,11 +3,8 @@ import { ConfigModule } from '@nestjs/config';
 import { authServiceEnvSchema } from '@esp/shared';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { RegistrationModule } from './registration/registration.module';
 import { AuthModule } from './auth/auth.module';
-import { ThaiGovAuthModule } from './thai-gov-auth/thai-gov-auth.module';
-import { LoginModule } from './login/login.module';
-import { DbdidModule } from './dbdid/dbdid.module';
-import { OpenidModule } from './openid/openid.module';
 import { ManageUserModule } from './manage-user/manage-user.module';
 import { MeModule } from './me/me.module';
 import { RegisterDataModule } from './register-data/register-data.module';
@@ -19,11 +16,8 @@ import { RegisterExternalModule } from './register-external/register-external.mo
       isGlobal: true,
       validationSchema: authServiceEnvSchema,
     }),
+    RegistrationModule,
     AuthModule,
-    ThaiGovAuthModule,
-    LoginModule,
-    DbdidModule,
-    OpenidModule,
     ManageUserModule,
     MeModule,
     RegisterDataModule,

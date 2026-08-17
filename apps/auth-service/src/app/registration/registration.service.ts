@@ -25,7 +25,7 @@ import {
 import { EMAIL_VERIFIED } from '../../constants/otp.constants';
 
 @Injectable()
-export class AuthService {
+export class RegistrationService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly otpService: OtpService,

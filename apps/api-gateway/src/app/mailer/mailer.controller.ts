@@ -5,7 +5,7 @@ import { MAILER_PATTERNS } from '@esp/shared';
 import { send } from '../../utils/sendMessage';
 import { MAILER_SERVICE_CLIENT } from '../../constants/service-clients.constants';
 
-@ApiTags('Mailer Service')
+@ApiTags('Mailer')
 @Controller('mailer')
 export class MailController {
   constructor(

@@ -1,39 +1,39 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import {
-  AUTH_PATTERNS,
+  REGISTRATION_PATTERNS,
   CreateUserDto,
   VerifyOtpDto,
   VerifyUserDto,
 } from '@esp/shared';
-import { AuthService } from './auth.service';
+import { RegistrationService } from './registration.service';
 
 @Controller()
-export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+export class RegistrationController {
+  constructor(private readonly registrationService: RegistrationService) {}
 
-  @MessagePattern(AUTH_PATTERNS.REG001)
+  @MessagePattern(REGISTRATION_PATTERNS.REGISTRATION)
   async register(@Payload() data: CreateUserDto) {
-    return await this.authService.createUser(data);
+    return await this.registrationService.createUser(data);
   }
 
-  @MessagePattern(AUTH_PATTERNS.REG001_VERIFY_OTP)
+  @MessagePattern(REGISTRATION_PATTERNS.REGISTRATION_VERIFY_OTP)
   async verifyOtp(@Payload() data: VerifyOtpDto) {
-    return await this.authService.verifyOtp(data);
+    return await this.registrationService.verifyOtp(data);
   }
 
-  @MessagePattern(AUTH_PATTERNS.REG002_SEND_OTP)
+  @MessagePattern(REGISTRATION_PATTERNS.REGISTRATION_RESEND_OTP)
   async resendOtp(@Payload() data: { email: string }) {
-    return await this.authService.resendOtp(data);
+    return await this.registrationService.resendOtp(data);
   }
 
-  @MessagePattern(AUTH_PATTERNS.REG014_LIST)
+  @MessagePattern(REGISTRATION_PATTERNS.REGISTRATION_PENDING_LIST)
   async listPendingWebsiteUsers() {
-    return await this.authService.listPendingWebsiteUsersForVerification();
+    return await this.registrationService.listPendingWebsiteUsersForVerification();
   }
 
-  @MessagePattern(AUTH_PATTERNS.REG014_VERIFY)
+  @MessagePattern(REGISTRATION_PATTERNS.REGISTRATION_PENDING_VERIFY)
   async verifyWebsiteUser(@Payload() data: VerifyUserDto) {
-    return await this.authService.verifyWebsiteUser(data);
+    return await this.registrationService.verifyWebsiteUser(data);
   }
 }

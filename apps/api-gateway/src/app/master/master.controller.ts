@@ -5,7 +5,7 @@ import { send } from '../../utils/sendMessage';
 import { MASTER_SERVICE_CLIENT } from '../../constants/service-clients.constants';
 import { ClientProxy } from '@nestjs/microservices';
 
-@ApiTags('Master Service')
+@ApiTags('Master')
 @Controller('master')
 export class MasterController {
   constructor(
