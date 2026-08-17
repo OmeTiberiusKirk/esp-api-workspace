@@ -2,7 +2,7 @@ import { HttpStatus, Injectable } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
 import { randomUUID } from 'crypto';
 import { maskEmail, maskPersonId, maskPhone } from '../../utils/mask.util';
-import { VerifyUserDto } from '../../dtos/verify-user.dto';
+import { VerifyUserDto } from '../../dtos/verify-user.dtos';
 import { hashWithSecret } from '../../utils/hash.util';
 import { PrismaService } from '../prisma/prisma.service';
 import { generateTemporaryPassword } from '../../utils/password.util';
@@ -11,7 +11,7 @@ import { CreateTbUserAddressDto } from '../../generated/nestjs-dto/create-tbUser
 import { ConnectTbUserRegisterDto } from '../../generated/nestjs-dto/connect-tbUserRegister.dto';
 import { parseCode } from '../../utils/parse-code.util';
 import { CreateUserDto, VerifyOtpDto } from '@esp/shared';
-import { OtpService } from './otp.service';
+import { OtpService } from '../otp/otp.service';
 import {
   CHANNEL_ID_WEBSITE,
   METHOD_ID_THAID,

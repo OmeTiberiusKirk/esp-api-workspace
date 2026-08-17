@@ -4,7 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma/prisma.service';
 import { RegService } from './reg.service';
 import { RegController } from './reg.controller';
-import { OtpService } from './otp.service';
+import { OtpService } from '../otp/otp.service';
 import { MAILER_SERVICE_CLIENT } from '../../constants/service-clients.constants';
 
 @Module({

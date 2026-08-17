@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { MasterModule } from './master/master.module';
 import { MailModule } from './mailer/mailer.module';
 import { RegModule } from './reg/reg.module';
+import { ThaiGovAuthModule } from './thai-gov-auth/thai-gov-auth.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { RegModule } from './reg/reg.module';
     MasterModule,
     RegModule,
     MailModule,
+    ThaiGovAuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

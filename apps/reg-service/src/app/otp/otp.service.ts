@@ -98,45 +98,6 @@ export class OtpService {
     return { message: 'OTP sent', expiresInSeconds: OTP_EXPIRES_MINUTES * 60 };
   }
 
-  // async verifyOtp({ email, otp }: VerifyOtpDto): Promise<{ message: string }> {
-  //   const user = await this.prisma.tb_user_register.findFirst({
-  //     where: { register_email: email, record_status: RECORD_ACTIVE },
-  //   });
-
-  //   if (!user) {
-  //     throw new RpcException(INVALID_OTP_ERROR);
-  //   }
-
-  //   const otpRecord = await this.prisma.tb_user_email_otp.findFirst({
-  //     where: {
-  //       user_id: user.user_id,
-  //       otp_flag: OTP_UNUSED,
-  //       record_status: RECORD_ACTIVE,
-  //       otp_expire_dtm: { gt: new Date() },
-  //     },
-  //     orderBy: { create_dtm: 'desc' },
-  //   });
-
-  //   if (!otpRecord || otpRecord.otp !== this.hashOtp(otp)) {
-  //     throw new RpcException(INVALID_OTP_ERROR);
-  //   }
-
-  //   const now = new Date();
-
-  //   await this.prisma.$transaction([
-  //     this.prisma.tb_user_email_otp.update({
-  //       where: { email_otp_id: otpRecord.email_otp_id },
-  //       data: { otp_flag: OTP_USED, update_dtm: now },
-  //     }),
-  //     this.prisma.tb_user_register.update({
-  //       where: { user_id: user.user_id },
-  //       data: { email_verify_flag: EMAIL_VERIFIED, update_dtm: now },
-  //     }),
-  //   ]);
-
-  //   return { message: 'ยืนยันอีเมลสำเร็จ' };
-  // }
-
   async verifyOtp({ email, otp }: VerifyOtpDto): Promise<{
     message: string;
     access_token: string;
