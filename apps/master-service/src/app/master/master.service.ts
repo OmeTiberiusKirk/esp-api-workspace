@@ -69,4 +69,17 @@ export class MasterService {
       .filter((r) => r.title_name)
       .map((r) => ({ code: r.title_id.toString(), name: r.title_name! }));
   }
+
+  /* method_id เป็น BigInt (bigserial) — แปลงเป็น number ก่อนส่งออก เพราะ TCP transport
+     serialize เป็น JSON ตรงๆ ไม่รองรับ BigInt (ค่าจริงมีไม่กี่รายการ ไม่มีทางเกิน Number.MAX_SAFE_INTEGER) */
+  async getMethods(): Promise<Array<{ method_id: number; method_name: string }>> {
+    const rows = await this.prisma.tb_ms_method.findMany({
+      where: { record_status: ACTIVE },
+      orderBy: { method_order: 'asc' },
+    });
+
+    return rows
+      .filter((r) => r.method_name)
+      .map((r) => ({ method_id: Number(r.method_id), method_name: r.method_name! }));
+  }
 }

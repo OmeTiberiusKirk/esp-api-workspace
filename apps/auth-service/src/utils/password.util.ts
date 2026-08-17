@@ -24,3 +24,12 @@ export const generateTemporaryPassword = (length = 8): string => {
 
   return chars.join('');
 };
+
+/* กติกาเดียวกับที่ frontend ใช้ตรวจตอนกรอกฟอร์มเปลี่ยนรหัสผ่าน — ต้องตรงกันทั้งสองฝั่ง
+   ไม่งั้น user จะผ่าน validation ฝั่ง client แล้วมาโดน reject ฝั่ง server อีกที */
+export const meetsPasswordRules = (password: string): boolean =>
+  password.length >= 8 &&
+  /[A-Z]/.test(password) &&
+  /[a-z]/.test(password) &&
+  /\d/.test(password) &&
+  /[!@#$%^&*]/.test(password);

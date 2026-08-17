@@ -31,4 +31,9 @@ export class MasterController {
   async getUserTitles() {
     return this.masterService.getUserTitles();
   }
+
+  @MessagePattern(MASTER_PATTERNS.METHODS)
+  async getMethods() {
+    return this.masterService.getMethods();
+  }
 }

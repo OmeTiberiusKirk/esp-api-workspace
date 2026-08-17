@@ -13,6 +13,8 @@ export const USER_VERIFY_REJECTED = '2';
 export const METHOD_ID_THAID = 1;
 export const METHOD_ID_OPENID = 2;
 export const METHOD_ID_WEBSITE = 3;
+export const METHOD_ID_DBD = 4;
+export const METHOD_ID_LDAP = 5;
 
 /* อ้างอิง mas.tb_ms_channel (ค่าตาม seed จริง: 1=Website) */
 export const CHANNEL_ID_WEBSITE = 1;

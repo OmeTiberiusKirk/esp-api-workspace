@@ -1,8 +1,8 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
-import { RpcException } from '@nestjs/microservices';
+import { HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { ClientProxy, RpcException } from '@nestjs/microservices';
+import { firstValueFrom, timeout } from 'rxjs';
 import { randomUUID } from 'crypto';
 import { maskEmail, maskPersonId, maskPhone } from '../../utils/mask.util';
-import { VerifyUserDto } from '../../dtos/verify-user.dtos';
 import { hashWithSecret } from '../../utils/hash.util';
 import { PrismaService } from '../prisma/prisma.service';
 import { generateTemporaryPassword } from '../../utils/password.util';
@@ -10,8 +10,9 @@ import { CreateTbUserRegisterDto } from '../../generated/nestjs-dto/create-tbUse
 import { CreateTbUserAddressDto } from '../../generated/nestjs-dto/create-tbUserAddress.dto';
 import { ConnectTbUserRegisterDto } from '../../generated/nestjs-dto/connect-tbUserRegister.dto';
 import { parseCode } from '../../utils/parse-code.util';
-import { CreateUserDto, VerifyOtpDto } from '@esp/shared';
+import { CreateUserDto, MAILER_PATTERNS, VerifyOtpDto, VerifyUserDto } from '@esp/shared';
 import { OtpService } from '../otp/otp.service';
+import { MAILER_SERVICE_CLIENT } from '../../constants/service-clients.constants';
 import {
   CHANNEL_ID_WEBSITE,
   METHOD_ID_WEBSITE,
@@ -28,6 +29,7 @@ export class AuthService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly otpService: OtpService,
+    @Inject(MAILER_SERVICE_CLIENT) private readonly mailerClient: ClientProxy,
   ) {}
 
   async createUser({ personal, address }: CreateUserDto) {
@@ -56,6 +58,26 @@ export class AuthService {
 
   async verifyOtp(data: VerifyOtpDto): Promise<{ message: string }> {
     return this.otpService.verifyOtp(data);
+  }
+
+  /* ปุ่ม "ส่งรหัสอีกครั้ง" ที่หน้ายืนยันอีเมล — แยกออกจาก createUser เพราะ user อาจปิดหน้าไปแล้วกลับมาใหม่
+     โดยไม่ได้สมัครซ้ำ ใช้ guard เดียวกับใน OtpService.sendOtp (ไม่ยิงซ้ำถ้ายังมี OTP ที่ไม่หมดอายุ) */
+  async resendOtp({ email }: { email: string }): Promise<{
+    message: string;
+    expiresInSeconds: number;
+  }> {
+    const user = await this.prisma.tb_user_register.findFirst({
+      where: { register_email: email, record_status: RECORD_ACTIVE },
+    });
+
+    if (!user) {
+      throw new RpcException({
+        statusCode: HttpStatus.BAD_REQUEST,
+        message: 'User not found.',
+      });
+    }
+
+    return this.otpService.sendOtp(user);
   }
 
   async checkUserExists(personal: CreateUserDto['personal']): Promise<void> {
@@ -93,8 +115,20 @@ export class AuthService {
        ต่างจากสมัครผ่านเว็บปกติที่ user_verify_flag ต้องรอเจ้าหน้าที่อนุมัติ (ยังคง 0 ไปก่อน) */
     const isUserVerified = personal.method_id != REGISTRATION_METHODS.MANUAL;
 
+    /* ห้าม spread ...personal ตรงๆ — CreatePersonalDto ใช้ชื่อฟิลด์ email/mobile_no (ตามฟอร์ม)
+       แต่ tb_user_register ใช้ register_email/register_mobile_no (ตาม DB) ชื่อไม่ตรงกัน
+       spread ตรงๆ จะเหลือ key email/mobile_no ที่ Prisma ไม่รู้จักติดไปด้วย แล้ว throw ตอน runtime */
     return {
-      ...personal,
+      user_type_id: personal.user_type_id,
+      method_id: personal.method_id,
+      person_id: personal.person_id,
+      title_id: personal.title_id,
+      title_name_th: personal.title_name_th,
+      first_name_th: personal.first_name_th,
+      middle_name_th: personal.middle_name_th,
+      last_name_th: personal.last_name_th,
+      register_email: personal.email,
+      register_mobile_no: personal.mobile_no,
       user_id: userId,
       channel_id: CHANNEL_ID_WEBSITE,
       birth_date: personal.birth_date
@@ -116,8 +150,17 @@ export class AuthService {
     userId: string,
     address: CreateUserDto['address'],
   ): CreateTbUserAddressDto & ConnectTbUserRegisterDto {
+    /* ห้าม spread ...address ตรงๆ เช่นกัน — CreateAddressDto เก็บรหัสพื้นที่เป็น tambol_seq/amphoe_seq/
+       province_seq (string, มาจากฟอร์ม) แต่ tb_user_address ใช้ tambon_seq (int, สะกดคนละแบบ + ต่างชนิด)
+       ต้อง map เฉพาะฟิลด์ที่ตรงจริง ไม่งั้น tambol_seq (key ที่ Prisma ไม่รู้จัก) จะติดไปด้วย */
     return {
-      ...address,
+      user_home_no: address.user_home_no,
+      user_soi: address.user_soi,
+      user_road: address.user_road,
+      user_moo: address.user_moo,
+      tambol_name: address.tambol_name,
+      amphoe_name: address.amphoe_name,
+      province_name: address.province_name,
       user_address_id: randomUUID(),
       user_id: userId,
       tambon_seq: parseCode(address.tambol_seq),
@@ -230,6 +273,16 @@ export class AuthService {
         update_dtm: now,
       },
     });
+
+    await firstValueFrom(
+      this.mailerClient
+        .send<{ success: true }>(MAILER_PATTERNS.SEND_ACCOUNT_VERIFIED_EMAIL, {
+          to: user.register_email,
+          username: user.register_email,
+          temporaryPassword,
+        })
+        .pipe(timeout(5_000)),
+    );
 
     return { message: 'User verified.' };
   }

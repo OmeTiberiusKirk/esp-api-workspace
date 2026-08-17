@@ -3,11 +3,14 @@ import { NestFactory } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { AppModule } from './app/app.module';
+import { BigIntInterceptor } from './interceptors/bigint.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
   const port = configService.get<number>('PORT') ?? 3002;
+
+  app.useGlobalInterceptors(new BigIntInterceptor());
 
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.TCP,

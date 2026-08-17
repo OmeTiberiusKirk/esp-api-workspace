@@ -1,0 +1,25 @@
+import { Module } from '@nestjs/common';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import { ConfigService } from '@nestjs/config';
+import { AUTH_SERVICE_CLIENT } from '../../constants/service-clients.constants';
+import { RegisterDataController } from './register-data.controller';
+
+@Module({
+  imports: [
+    ClientsModule.registerAsync([
+      {
+        name: AUTH_SERVICE_CLIENT,
+        useFactory: (configService: ConfigService) => ({
+          transport: Transport.TCP,
+          options: {
+            host: configService.get<string>('AUTH_SERVICE_HOST'),
+            port: configService.get<number>('AUTH_SERVICE_PORT'),
+          },
+        }),
+        inject: [ConfigService],
+      },
+    ]),
+  ],
+  controllers: [RegisterDataController],
+})
+export class RegisterDataModule {}

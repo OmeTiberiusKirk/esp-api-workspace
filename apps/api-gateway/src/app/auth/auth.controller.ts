@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Get,
   HttpStatus,
   Inject,
   Post,
@@ -14,6 +15,7 @@ import {
   CreatePersonalDto,
   CreateUserDto,
   VerifyOtpDto,
+  VerifyUserDto,
 } from '@esp/shared';
 import { send } from '../../utils/sendMessage';
 import { AUTH_SERVICE_CLIENT } from '../../constants/service-clients.constants';
@@ -68,5 +70,23 @@ export class Reg001 {
   @Post('/verify-otp')
   async verify(@Body() body: VerifyOtpDto) {
     return send(this.client, AUTH_PATTERNS.REG001_VERIFY_OTP, body);
+  }
+
+  @Post('/resend-otp')
+  async resendOtp(@Body() body: { email: string }) {
+    return send(this.client, AUTH_PATTERNS.REG002_SEND_OTP, body);
+  }
+
+  @Get('/pending')
+  async listPending() {
+    return send(this.client, AUTH_PATTERNS.REG014_LIST, {});
+  }
+
+  @ApiBody({
+    type: VerifyUserDto,
+  })
+  @Post('/verify')
+  async verifyUser(@Body() body: VerifyUserDto) {
+    return send(this.client, AUTH_PATTERNS.REG014_VERIFY, body);
   }
 }
