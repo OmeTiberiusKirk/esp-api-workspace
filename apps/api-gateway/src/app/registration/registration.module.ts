@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { ConfigService } from '@nestjs/config';
 import { AUTH_SERVICE_CLIENT } from '../../constants/service-clients.constants';
-import { ThaiGovAuthController } from './thai-gov-auth.controller';
+import { ConfigService } from '@nestjs/config';
+import { Reg001 } from './auth.controller';
 
 @Module({
   imports: [
@@ -20,6 +20,6 @@ import { ThaiGovAuthController } from './thai-gov-auth.controller';
       },
     ]),
   ],
-  controllers: [ThaiGovAuthController],
+  controllers: [Reg001],
 })
-export class ThaiGovAuthModule {}
+export class AuthModule {}

@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { AUTH_SERVICE_CLIENT } from '../../constants/service-clients.constants';
 import { ConfigService } from '@nestjs/config';
-import { Reg001 } from './auth.controller';
+import { AUTH_SERVICE_CLIENT } from '../../constants/service-clients.constants';
+import { LoginController } from './login.controller';
 
 @Module({
   imports: [
@@ -20,6 +20,6 @@ import { Reg001 } from './auth.controller';
       },
     ]),
   ],
-  controllers: [Reg001],
+  controllers: [LoginController],
 })
-export class AuthModule {}
+export class LoginModule {}
