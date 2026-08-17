@@ -40,9 +40,9 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Debug @esp/reg-service with Nx",
+      "name": "Debug @esp/auth-service with Nx",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["exec", "nx", "serve", "@esp/reg-service"],
+      "runtimeArgs": ["exec", "nx", "serve", "@esp/auth-service"],
       "env": {
         "NODE_OPTIONS": "--inspect=9231"
       },
@@ -51,7 +51,7 @@
       "skipFiles": ["<node_internals>/**"],
       "sourceMaps": true,
       "outFiles": [
-        "${workspaceFolder}/apps/reg-service/dist/**/*.(m|c|)js",
+        "${workspaceFolder}/apps/auth-service/dist/**/*.(m|c|)js",
         "!**/node_modules/**"
       ]
     },

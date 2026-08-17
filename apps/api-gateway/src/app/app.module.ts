@@ -5,7 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MasterModule } from './master/master.module';
 import { MailModule } from './mailer/mailer.module';
-import { RegModule } from './reg/reg.module';
+import { AuthModule } from './auth/auth.module';
 import { ThaiGovAuthModule } from './thai-gov-auth/thai-gov-auth.module';
 
 @Module({
@@ -15,7 +15,7 @@ import { ThaiGovAuthModule } from './thai-gov-auth/thai-gov-auth.module';
       validationSchema: apiGatewayEnvSchema,
     }),
     MasterModule,
-    RegModule,
+    AuthModule,
     MailModule,
     ThaiGovAuthModule,
   ],

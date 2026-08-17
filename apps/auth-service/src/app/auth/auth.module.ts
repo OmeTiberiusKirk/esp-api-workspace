@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma/prisma.service';
-import { RegService } from './reg.service';
-import { RegController } from './reg.controller';
+import { AuthService } from './auth.service';
+import { AuthController } from './auth.controller';
 import { OtpService } from '../otp/otp.service';
 import { MAILER_SERVICE_CLIENT } from '../../constants/service-clients.constants';
 
@@ -23,7 +23,7 @@ import { MAILER_SERVICE_CLIENT } from '../../constants/service-clients.constants
       },
     ]),
   ],
-  controllers: [RegController],
-  providers: [PrismaService, RegService, OtpService],
+  controllers: [AuthController],
+  providers: [PrismaService, AuthService, OtpService],
 })
-export class RegModule {}
+export class AuthModule {}

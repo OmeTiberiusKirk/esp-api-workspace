@@ -10,7 +10,7 @@
       "path": "./apps/master-service"
     },
     {
-      "path": "./apps/reg-service"
+      "path": "./apps/auth-service"
     },
     {
       "path": "./packages/shared"

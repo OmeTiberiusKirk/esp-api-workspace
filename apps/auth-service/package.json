@@ -1,5 +1,5 @@
 {
-  "name": "@esp/reg-service",
+  "name": "@esp/auth-service",
   "version": "0.0.1",
   "private": true,
   "nx": {
@@ -9,11 +9,11 @@
         "dependsOn": ["^build"],
         "outputs": ["{options.outputPath}"],
         "options": {
-          "outputPath": "apps/reg-service/dist",
-          "main": "apps/reg-service/src/main.ts",
-          "tsConfig": "apps/reg-service/tsconfig.build.json",
-          "rootDir": "apps/reg-service/src",
-          "assets": ["apps/reg-service/src/assets"],
+          "outputPath": "apps/auth-service/dist",
+          "main": "apps/auth-service/src/main.ts",
+          "tsConfig": "apps/auth-service/tsconfig.build.json",
+          "rootDir": "apps/auth-service/src",
+          "assets": ["apps/auth-service/src/assets"],
           "generatePackageJson": false
         },
         "configurations": {
@@ -28,8 +28,8 @@
         "cache": true,
         "executor": "@nx/js:prune-lockfile",
         "outputs": [
-          "{workspaceRoot}/apps/reg-service/dist/package.json",
-          "{workspaceRoot}/apps/reg-service/dist/pnpm-lock.yaml"
+          "{workspaceRoot}/apps/auth-service/dist/package.json",
+          "{workspaceRoot}/apps/auth-service/dist/pnpm-lock.yaml"
         ],
         "options": {
           "buildTarget": "build"
@@ -41,7 +41,7 @@
         ],
         "cache": true,
         "outputs": [
-          "{workspaceRoot}/apps/reg-service/dist/workspace_modules"
+          "{workspaceRoot}/apps/auth-service/dist/workspace_modules"
         ],
         "executor": "@nx/js:copy-workspace-modules",
         "options": {
@@ -63,15 +63,15 @@
           "build"
         ],
         "options": {
-          "buildTarget": "@esp/reg-service:build",
+          "buildTarget": "@esp/auth-service:build",
           "runBuildTargetDependencies": false
         },
         "configurations": {
           "development": {
-            "buildTarget": "@esp/reg-service:build:development"
+            "buildTarget": "@esp/auth-service:build:development"
           },
           "production": {
-            "buildTarget": "@esp/reg-service:build:production"
+            "buildTarget": "@esp/auth-service:build:production"
           }
         }
       }

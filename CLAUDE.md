@@ -29,7 +29,7 @@
 An Nx Monorepo architecture containing NestJS Microservices:
 
 - `apps/api-gateway`: HTTP Entry point, routing, rate-limiting, and microservice proxy.
-- `apps/reg-service`: User registration and account creation (`reg` schema).
+- `apps/auth-service`: User registration and account creation (`reg` schema).
 - `apps/master-service`: Master data and core business logic (`master` schema).
 - `packages/shared`: Shared DTOs, interfaces, contracts, constants, and validation schemas.
 
@@ -39,7 +39,7 @@ An Nx Monorepo architecture containing NestJS Microservices:
 
 | Action         | Command                                                            |
 | :------------- | :----------------------------------------------------------------- |
-| **Serve App**  | `pnpm nx serve <app-name>` (e.g., `api-gateway`, `reg-service`)    |
+| **Serve App**  | `pnpm nx serve <app-name>` (e.g., `api-gateway`, `auth-service`)    |
 | **Serve All**  | `pnpm nx run-many --target=serve --all`                            |
 | **Build**      | `pnpm nx build <app-name>` \| `pnpm nx affected --target=build`    |
 | **Test / E2E** | `pnpm nx test <app-name>` \| `pnpm nx e2e <app-name>-e2e`          |
@@ -58,7 +58,7 @@ An Nx Monorepo architecture containing NestJS Microservices:
 
 ### 2. Database Strategy (Logical Separation)
 
-- **Single PostgreSQL Instance:** Separated logically via schemas (`reg` schema for `reg-service`, `master` schema for `master-service`).
+- **Single PostgreSQL Instance:** Separated logically via schemas (`reg` schema for `auth-service`, `master` schema for `master-service`).
 - **NO Cross-Schema JOINs & FKs:** Direct DB querying across schemas is forbidden. Save target IDs as primitive types (`UUID`/`BigInt`) without DB-level constraints.
 - **Inter-service Data:** Fetch data from other domains via `@MessagePattern()`, never via direct SQL/Prisma joins.
 
