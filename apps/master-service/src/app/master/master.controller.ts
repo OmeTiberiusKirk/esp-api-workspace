@@ -13,17 +13,17 @@ export class MasterController {
   }
 
   @MessagePattern(MASTER_PATTERNS.DISTRICTS)
-  async getDistricts(@Payload() data: { provinceCode: string }) {
-    return this.masterService.getDistrictsByProvinceCode(data.provinceCode);
+  async getDistricts(@Payload() data: { province_code: string }) {
+    return this.masterService.getDistricts(data.province_code);
   }
 
   @MessagePattern(MASTER_PATTERNS.SUB_DISTRICTS)
   async getSubDistricts(
-    @Payload() data: { provinceCode: string; districtCode: string },
+    @Payload() data: { province_code: string; amphoe_code: string },
   ) {
     return this.masterService.getSubDistricts(
-      data.provinceCode,
-      data.districtCode,
+      data.province_code,
+      data.amphoe_code,
     );
   }
 

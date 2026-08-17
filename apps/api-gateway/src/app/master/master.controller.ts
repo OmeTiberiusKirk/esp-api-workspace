@@ -28,14 +28,14 @@ export class MasterController {
       'Forwards the request to the Master Service (master-service) via TCP transport and returns the result.',
   })
   @ApiQuery({
-    name: 'provinceCode',
+    name: 'province_code',
     required: true,
     type: 'string',
     default: '10',
   })
   @Get('/districts')
-  async districts(@Query('provinceCode') provinceCode: string) {
-    return send(this.client, MASTER_PATTERNS.DISTRICTS, { provinceCode });
+  async districts(@Query('province_code') province_code: string) {
+    return send(this.client, MASTER_PATTERNS.DISTRICTS, { province_code });
   }
 
   @ApiOperation({
@@ -44,25 +44,25 @@ export class MasterController {
       'Forwards the request to the Master Service (master-service) via TCP transport and returns the result.',
   })
   @ApiQuery({
-    name: 'provinceCode',
+    name: 'province_code',
     required: true,
     type: 'string',
     default: '10',
   })
   @ApiQuery({
-    name: 'districtCode',
+    name: 'amphoe_code',
     required: true,
     type: 'string',
     default: '34',
   })
   @Get('/sub-districts')
   async subDistricts(
-    @Query('provinceCode') provinceCode: string,
-    @Query('districtCode') districtCode: string,
+    @Query('province_code') province_code: string,
+    @Query('amphoe_code') amphoe_code: string,
   ) {
     return send(this.client, MASTER_PATTERNS.SUB_DISTRICTS, {
-      provinceCode,
-      districtCode,
+      province_code,
+      amphoe_code,
     });
   }
 

@@ -1,25 +1,14 @@
-import {
-  BadRequestException,
-  Body,
-  Controller,
-  Get,
-  HttpStatus,
-  Inject,
-  Post,
-} from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { ClientProxy } from '@nestjs/microservices';
 import {
   REGISTRATION_PATTERNS,
-  CreateAddressDto,
-  CreatePersonalDto,
   CreateUserDto,
   VerifyOtpDto,
   VerifyUserDto,
 } from '@esp/shared';
 import { send } from '../../utils/sendMessage';
 import { AUTH_SERVICE_CLIENT } from '../../constants/service-clients.constants';
-import { validate } from 'class-validator';
 
 @ApiTags('Registration')
 @Controller('registration')
@@ -41,25 +30,25 @@ export class RegistrationController {
    * @returns {void} ไม่มี
    */
   async register(@Body() body: CreateUserDto) {
-    // ตรวจว่าข้อมูล personal ถูกต้องไหม
-    const personal = new CreatePersonalDto(body.personal);
-    // ตรวจว่าข้อมูล address ถูกต้องไหม
-    const address = new CreateAddressDto(body.address);
-    const pErrors = await validate(personal);
-    const aErrors = await validate(address);
-    const errors = pErrors.concat(aErrors);
+    // // ตรวจว่าข้อมูล personal ถูกต้องไหม
+    // const personal = new CreatePersonalDto(body.personal);
+    // // ตรวจว่าข้อมูล address ถูกต้องไหม
+    // const address = new CreateAddressDto(body.address);
+    // const pErrors = await validate(personal);
+    // const aErrors = await validate(address);
+    // const errors = pErrors.concat(aErrors);
 
-    // หากมี error ให้ reponse bad request
-    if (errors.length > 0) {
-      const message = errors.flatMap((error) =>
-        Object.values(error.constraints ?? {}),
-      );
+    // // หากมี error ให้ reponse bad request
+    // if (errors.length > 0) {
+    //   const message = errors.flatMap((error) =>
+    //     Object.values(error.constraints ?? {}),
+    //   );
 
-      throw new BadRequestException({
-        statusCode: HttpStatus.BAD_REQUEST,
-        message,
-      });
-    }
+    //   throw new BadRequestException({
+    //     statusCode: HttpStatus.BAD_REQUEST,
+    //     message,
+    //   });
+    // }
 
     return send(this.client, REGISTRATION_PATTERNS.REGISTRATION, body);
   }
@@ -69,17 +58,29 @@ export class RegistrationController {
   })
   @Post('/verify-otp')
   async verify(@Body() body: VerifyOtpDto) {
-    return send(this.client, REGISTRATION_PATTERNS.REGISTRATION_VERIFY_OTP, body);
+    return send(
+      this.client,
+      REGISTRATION_PATTERNS.REGISTRATION_VERIFY_OTP,
+      body,
+    );
   }
 
   @Post('/resend-otp')
   async resendOtp(@Body() body: { email: string }) {
-    return send(this.client, REGISTRATION_PATTERNS.REGISTRATION_RESEND_OTP, body);
+    return send(
+      this.client,
+      REGISTRATION_PATTERNS.REGISTRATION_RESEND_OTP,
+      body,
+    );
   }
 
   @Get('/pending')
   async listPending() {
-    return send(this.client, REGISTRATION_PATTERNS.REGISTRATION_PENDING_LIST, {});
+    return send(
+      this.client,
+      REGISTRATION_PATTERNS.REGISTRATION_PENDING_LIST,
+      {},
+    );
   }
 
   @ApiBody({
@@ -87,6 +88,10 @@ export class RegistrationController {
   })
   @Post('/verify')
   async verifyUser(@Body() body: VerifyUserDto) {
-    return send(this.client, REGISTRATION_PATTERNS.REGISTRATION_PENDING_VERIFY, body);
+    return send(
+      this.client,
+      REGISTRATION_PATTERNS.REGISTRATION_PENDING_VERIFY,
+      body,
+    );
   }
 }

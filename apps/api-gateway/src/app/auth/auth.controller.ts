@@ -19,25 +19,25 @@ export class AuthController {
   ) {}
 
   @ApiBody({ type: LoginDto })
-  @Post('/auth')
+  @Post()
   async login(@Body() body: LoginDto) {
     return send(this.client, AUTH_PATTERNS.AUTH, body);
   }
 
   @ApiBody({ type: ThaidLoginDto })
-  @Post('/auth/thaid')
+  @Post('/thaid')
   async thaidLogin(@Body() body: ThaidLoginDto) {
     return send(this.client, AUTH_PATTERNS.AUTH_THAID, body);
   }
 
   @ApiBody({ type: OpenidLoginDto })
-  @Post('/auth/openid')
+  @Post('/openid')
   async openidLogin(@Body() body: OpenidLoginDto) {
     return send(this.client, AUTH_PATTERNS.AUTH_OPENID, body);
   }
 
   @ApiBody({ type: DbdidLoginDto })
-  @Post('/auth/dbdid')
+  @Post('/dbdid')
   async dbdidLogin(@Body() body: DbdidLoginDto) {
     return send(this.client, AUTH_PATTERNS.AUTH_DBDID, body);
   }

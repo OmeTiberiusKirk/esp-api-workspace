@@ -10,7 +10,12 @@ import { CreateTbUserRegisterDto } from '../../generated/nestjs-dto/create-tbUse
 import { CreateTbUserAddressDto } from '../../generated/nestjs-dto/create-tbUserAddress.dto';
 import { ConnectTbUserRegisterDto } from '../../generated/nestjs-dto/connect-tbUserRegister.dto';
 import { parseCode } from '../../utils/parse-code.util';
-import { CreateUserDto, MAILER_PATTERNS, VerifyOtpDto, VerifyUserDto } from '@esp/shared';
+import {
+  CreateUserDto,
+  MAILER_PATTERNS,
+  VerifyOtpDto,
+  VerifyUserDto,
+} from '@esp/shared';
 import { OtpService } from '../otp/otp.service';
 import { MAILER_SERVICE_CLIENT } from '../../constants/service-clients.constants';
 import {
@@ -32,18 +37,18 @@ export class RegistrationService {
     @Inject(MAILER_SERVICE_CLIENT) private readonly mailerClient: ClientProxy,
   ) {}
 
-  async createUser({ personal, address }: CreateUserDto) {
+  async createUser(data: CreateUserDto) {
     /* เช็ค person_id กับ email ซ้ำรวมเป็น query เดียว เจอซ้ำฝั่งไหนก็ตอบ error เดียวกันหมด
        ไม่แยก verified/unverified แล้ว ให้เจ้าหน้าที่จัดการเองแทนการ auto-resume */
-    await this.checkUserExists(personal);
+    await this.checkUserExists(data);
 
     const userId = randomUUID();
     const [user] = await this.prisma.$transaction([
       this.prisma.tb_user_register.create({
-        data: this.mapToUserCreateInput(userId, personal),
+        data: this.mapToUserCreateInput(userId, data),
       }),
       this.prisma.tb_user_address.create({
-        data: this.mapToUserAddressCreateInput(userId, address),
+        data: this.mapToUserAddressCreateInput(userId, data),
       }),
     ]);
 
@@ -80,13 +85,13 @@ export class RegistrationService {
     return this.otpService.sendOtp(user);
   }
 
-  async checkUserExists(personal: CreateUserDto['personal']): Promise<void> {
+  async checkUserExists(personal: CreateUserDto): Promise<void> {
     const existingUser = await this.prisma.tb_user_register.findFirst({
       where: {
         record_status: RECORD_ACTIVE,
         OR: [
           { person_id: personal.person_id },
-          { register_email: personal.email },
+          { register_email: personal.register_email },
         ],
       },
     });
@@ -108,7 +113,7 @@ export class RegistrationService {
 
   private mapToUserCreateInput(
     userId: string,
-    personal: CreateUserDto['personal'],
+    personal: CreateUserDto,
   ): CreateTbUserRegisterDto {
     const now = new Date();
     /* ผ่าน ThaID มาแล้ว = รัฐยืนยันตัวตนจริงให้เรียบร้อย ไม่ต้องรอไปยืนยันตัวตนที่สำนักงานที่ดินซ้ำอีกรอบ
@@ -122,13 +127,12 @@ export class RegistrationService {
       user_type_id: personal.user_type_id,
       method_id: personal.method_id,
       person_id: personal.person_id,
-      title_id: personal.title_id,
       title_name_th: personal.title_name_th,
       first_name_th: personal.first_name_th,
       middle_name_th: personal.middle_name_th,
       last_name_th: personal.last_name_th,
-      register_email: personal.email,
-      register_mobile_no: personal.mobile_no,
+      register_email: personal.register_email,
+      register_mobile_no: personal.register_mobile_no,
       user_id: userId,
       channel_id: CHANNEL_ID_WEBSITE,
       birth_date: personal.birth_date
@@ -148,7 +152,7 @@ export class RegistrationService {
 
   private mapToUserAddressCreateInput(
     userId: string,
-    address: CreateUserDto['address'],
+    address: CreateUserDto,
   ): CreateTbUserAddressDto & ConnectTbUserRegisterDto {
     /* ห้าม spread ...address ตรงๆ เช่นกัน — CreateAddressDto เก็บรหัสพื้นที่เป็น tambol_seq/amphoe_seq/
        province_seq (string, มาจากฟอร์ม) แต่ tb_user_address ใช้ tambon_seq (int, สะกดคนละแบบ + ต่างชนิด)
