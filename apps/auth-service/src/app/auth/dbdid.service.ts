@@ -1,15 +1,32 @@
+import { createHash } from 'node:crypto';
 import { Injectable, Logger } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
 import { DbdidLoginDto } from '@esp/shared';
 import { PrismaService } from '../prisma/prisma.service';
 import { issueAuthTokens } from '../../utils/token.util';
-import { DbdidLoginResult, DbdidProfile, DbdidTokenResponse } from './dtos/dbdid.dtos';
 import {
+  DbdidLoginResult,
+  DbdidProfile,
+  DbdidTokenResponse,
+} from './dtos/dbdid.dtos';
+import {
+  DBDID_SECRET_HASH_ROUNDS,
+  DBDID_SECRET_SALT,
   DBDID_SERVICE_UNAVAILABLE_ERROR,
   INVALID_DBDID_TOKEN_ERROR,
   RECORD_ACTIVE,
   USER_TYPE_LEGAL,
 } from '../../constants/dbdid.constants';
+
+const encodeDbdidClientSecret = (secret: string): string => {
+  let digestHex = secret;
+  for (let i = 0; i < DBDID_SECRET_HASH_ROUNDS; i++) {
+    digestHex = createHash('md5')
+      .update(digestHex + DBDID_SECRET_SALT)
+      .digest('hex');
+  }
+  return digestHex;
+};
 
 /* DBD ID เก็บ profile ไว้ที่ userinfo endpoint (ไม่ได้แนบมาใน access token เหมือน ThaID id_token)
    จึงต้องมี HTTP call เพิ่มอีกรอบหลัง exchange code สำเร็จ */
@@ -39,8 +56,11 @@ export class DbdidService {
   constructor(private readonly prisma: PrismaService) {}
 
   async exchangeCode({ code }: DbdidLoginDto): Promise<DbdidLoginResult> {
+    const encodedSecret = encodeDbdidClientSecret(
+      process.env.DBDID_CLIENT_SECRET ?? '',
+    );
     const basicAuth = Buffer.from(
-      `${process.env.DBDID_CLIENT_ID}:${process.env.DBDID_CLIENT_SECRET}`,
+      `${process.env.DBDID_CLIENT_ID}:${encodedSecret}`,
     ).toString('base64');
 
     const body = new URLSearchParams({
@@ -68,9 +88,11 @@ export class DbdidService {
     if (!response.ok) throw new RpcException(INVALID_DBDID_TOKEN_ERROR);
 
     const tokenResponse = (await response.json()) as DbdidTokenResponse;
-    if (!tokenResponse.access_token) throw new RpcException(INVALID_DBDID_TOKEN_ERROR);
+    if (!tokenResponse.access_token)
+      throw new RpcException(INVALID_DBDID_TOKEN_ERROR);
 
     const profile = await fetchProfile(tokenResponse.access_token);
+    console.log(profile);
 
     return this.resolveLogin(profile);
   }
