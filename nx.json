@@ -40,6 +40,17 @@
       "options": {
         "targetName": "lint"
       }
+    },
+    {
+      "plugin": "@nx/docker",
+      "options": {
+        "buildTarget": {
+          "name": "docker:build"
+        },
+        "runTarget": {
+          "name": "docker:run"
+        }
+      }
     }
   ],
   "nxCloudId": "6a73d6f82851e735e52ef597",

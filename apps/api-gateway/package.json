@@ -6,14 +6,20 @@
     "targets": {
       "build": {
         "executor": "@nx/js:tsc",
-        "dependsOn": ["^build"],
-        "outputs": ["{options.outputPath}"],
+        "dependsOn": [
+          "^build"
+        ],
+        "outputs": [
+          "{options.outputPath}"
+        ],
         "options": {
           "outputPath": "apps/api-gateway/dist",
           "main": "apps/api-gateway/src/main.ts",
           "tsConfig": "apps/api-gateway/tsconfig.build.json",
           "rootDir": "apps/api-gateway/src",
-          "assets": ["apps/api-gateway/src/assets"],
+          "assets": [
+            "apps/api-gateway/src/assets"
+          ],
           "generatePackageJson": false
         },
         "configurations": {
@@ -74,6 +80,12 @@
             "buildTarget": "@esp/api-gateway:build:production"
           }
         }
+      },
+      "docker:build": {
+        "dependsOn": [
+          "build",
+          "prune"
+        ]
       }
     }
   },

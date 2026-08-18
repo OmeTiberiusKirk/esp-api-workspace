@@ -6,14 +6,20 @@
     "targets": {
       "build": {
         "executor": "@nx/js:tsc",
-        "dependsOn": ["^build"],
-        "outputs": ["{options.outputPath}"],
+        "dependsOn": [
+          "^build"
+        ],
+        "outputs": [
+          "{options.outputPath}"
+        ],
         "options": {
           "outputPath": "apps/auth-service/dist",
           "main": "apps/auth-service/src/main.ts",
           "tsConfig": "apps/auth-service/tsconfig.build.json",
           "rootDir": "apps/auth-service/src",
-          "assets": ["apps/auth-service/src/assets"],
+          "assets": [
+            "apps/auth-service/src/assets"
+          ],
           "generatePackageJson": false
         },
         "configurations": {
@@ -74,6 +80,12 @@
             "buildTarget": "@esp/auth-service:build:production"
           }
         }
+      },
+      "docker:build": {
+        "dependsOn": [
+          "build",
+          "prune"
+        ]
       }
     }
   },

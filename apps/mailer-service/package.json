@@ -84,6 +84,12 @@
             "buildTarget": "@esp/mailer-service:build:production"
           }
         }
+      },
+      "docker:build": {
+        "dependsOn": [
+          "build",
+          "prune"
+        ]
       }
     }
   },
